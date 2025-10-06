@@ -1,17 +1,17 @@
 export const API = {
     //auth
     "login":"/auth/login",
-    auth:'/auth/register',
-    refresh_token:'/auth/refresh_token',
+    "auth":'/auth/register',
+    "refresh-token":'/auth/refresh_token',
 
     //
-    updateUserInfo: '/user/update',
-    userMovie:"/user/movie", 
-    userInfo:"/user/info", 
+    "update-user-info": '/user/update',
+    "user-movie":"/user/movie", 
+    "user-info":"/user/info", 
     // movie 
 
-    allMovie:"/movie/all",
-    movieStar:"/movie/start",
+    "all-movie":"/movie/all",
+    "movie-star":"/movie/start",
 
 
 }
