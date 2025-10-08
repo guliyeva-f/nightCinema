@@ -15,8 +15,8 @@ import { AuthService } from "@/services/auth/auth.service";
 export function LoginForm({ className, ...props }) {
   const handleLogin = async () => {
     await AuthService.login({
-      email: "elcan@gmai.com",
-      password: "elcan12345",
+      email: "guliyeffa2l@gmail.com",
+      password: "fatima0111",
     });
   };
 

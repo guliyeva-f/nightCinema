@@ -1,5 +1,9 @@
 {
   "welcome": "Добро пожаловать в Night Cinema",
   "language": "Язык",
-  "save": "Сохранить"
+  "save": "Сохранить",
+  "movies": "Фильмы",
+  "theaters": "Театры",
+  "contact": "Связь",
+  "profile": "Профиль"
 }

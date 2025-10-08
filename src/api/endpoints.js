@@ -4,14 +4,12 @@ export const API = {
     "auth":'/auth/register',
     "refresh-token":'/auth/refresh_token',
 
-    //
+    // user
     "update-user-info": '/user/update',
     "user-movie":"/user/movie", 
     "user-info":"/user/info", 
-    // movie 
 
+    // movie 
     "all-movie":"/movie/all",
     "movie-star":"/movie/start",
-
-
 }
