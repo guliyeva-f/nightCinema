@@ -1,0 +1,32 @@
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.swiper-slide {
+  background-position: center;
+  background-size: cover;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+}
+
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  z-index: 10;
+  user-select: none;
+  background: #250000;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.swiper-button-prev-custom { left: 10px; }
+.swiper-button-next-custom { right: 10px; }

@@ -1,8 +1,11 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next';
 
 function ProfilePage() {
+  const { t, i18n } = useTranslation();
+
   return (
-    <div>ProfilePage</div>
+    <div className='h-screen flex items-center justify-center'>{t('profile')}</div>
   )
 }
 

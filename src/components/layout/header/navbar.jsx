@@ -1,95 +1,22 @@
 import * as React from "react";
-import { CircleCheckIcon, CircleHelpIcon, CircleIcon } from "lucide-react";
-
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { components } from "@/const";
 
-export function NavigationMenuDemo() {
+export function NavigationMenuDemo({isOpen}) {
+  const { t, i18n } = useTranslation();
   return (
-    <NavigationMenu viewport={false}>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Kinoteatrlar</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-2 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <Link
-                    className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline outline-hidden select-none focus:shadow-md"
-                    to="/"
-                  >
-                    <div className="mt-4 mb-2 text-lg font-medium">
-                      shadcn/ui
-                    </div>
-                    <p className="text-muted-foreground text-sm leading-tight">
-                      Beautifully designed components built with Tailwind CSS.
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-              <ListItem to="/docs" title="Introduction">
-                Re-usable components built using Radix UI and Tailwind CSS.
-              </ListItem>
-              <ListItem to="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem to="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Kinolar</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-              {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  to={component.to}
-                >
-                  {component.description}
-                </ListItem>
-              ))}
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/contact">Bizimlə Əlaqə</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-            <Link to="/profile">Profil</Link>
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-  );
-}
-
-function ListItem({ title, children, to, ...props }) {
-  return (
-    <li {...props}>
-      <NavigationMenuLink asChild>
-        <Link to={to}>
-          <div className="text-sm leading-none font-medium">{title}</div>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
-            {children}
-          </p>
-        </Link>
-      </NavigationMenuLink>
-    </li>
+     <div className={`flex flex-col lg:flex-row gap-6 items-center py-10
+                         font-medium text-white px-4 lg:px-6 lg:py-3 backdrop-blur bg-black/50 lg:bg-black/10 lg:h-[55px] h-screen
+                         border border-gray-300/20 lg:border-0 duration-300
+                         max-lg:fixed max-lg:top-[81px] max-lg:left-0
+                         max-lg:w-full max-lg:rounded-br-3xl max-lg:rounded-tr-3xl max-lg:transition-all transition-opacity
+                        ${isOpen ? 'opacity-100' : 'opacity-0'} ${isOpen ? 'max-sm:w-full sm:w-1/2 md:w-1/3 lg:w-auto' : 'max-sm:w-0 sm:w-0 lg:w-auto'}
+                         lg:opacity-100 lg:static lg:w-auto lg:rounded-full
+                     `}>
+      <Link className="lg:text-[18px] text-[22px]" to="/movies">{t('movies')}</Link>
+      <Link className="lg:text-[18px] text-[22px]" to="/theaters">{t('theaters')}</Link>
+      <Link className="lg:text-[18px] text-[22px]" to="/contact">{t('contact')}</Link>
+      <Link className="lg:text-[18px] text-[22px]" to="/profile">{t('profile')}</Link>
+    </div>
   );
 }

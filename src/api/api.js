@@ -5,8 +5,6 @@ let $api = (service, params)=> {
 
     console.log(services);
     console.log(services[service]);
-    
-    
 
     let url = service;
     if (params) {

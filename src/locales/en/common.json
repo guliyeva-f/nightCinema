@@ -1,5 +1,9 @@
 {
   "welcome": "Welcome to Night Cinema",
   "language": "Language",
-  "save": "Save"
+  "save": "Save",
+  "movies": "Movies",
+  "theaters": "Theaters",
+  "contact": "Contact",
+  "profile": "Profile"
 }

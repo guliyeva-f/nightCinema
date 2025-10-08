@@ -1,13 +1,11 @@
 import { generateUniqueKey } from '@/utils/generate-unit-key';
 import axios from 'axios';
 
-
 const baseURL = `/api`;
 
 export const $axios = axios.create({
     baseURL,
 });
-
 
 $axios.interceptors.request.use(
     async (config) => {
@@ -43,6 +41,5 @@ $axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
-
 
 export default $axios;
