@@ -13,7 +13,9 @@ i18n
     ns: ["common"],
     defaultNS: "common",
     backend: {
-      loadPath: "/src/locales/{{lng}}/{{ns}}.json", // 🗂️ JSON fayl yolu
+      backend: {
+        loadPath: "/locales/{{lng}}/{{ns}}.json",
+      },
     },
     detection: {
       order: ["querystring", "localStorage", "cookie", "navigator", "htmlTag"],

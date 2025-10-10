@@ -48,7 +48,7 @@ function CustomSwiper() {
         className="mySwiper"
       >
         <SwiperSlide className="h-full">
-          <div className="w-full h-screen bg-[url('/hero.jpg')] p-16 bg-cover bg-center relative">
+          <div className="w-full h-screen bg-[url('/img/hero.jpg')] p-16 bg-cover bg-center relative">
             <div className="absolute inset-0 bg-black/50"></div>
             <div className="w-full container m-auto z-10 flex items-center h-full">
               <BlurText
@@ -64,7 +64,7 @@ function CustomSwiper() {
           </div>
         </SwiperSlide>
         <SwiperSlide>
-          <div className="w-full h-screen bg-[url('/hero2.jpg')] bg-cover bg-center relative">
+          <div className="w-full h-screen bg-[url('/img/hero2.jpg')] bg-cover bg-center relative">
             <div className="absolute inset-0 bg-black/50 z-50"></div>
             <div className="w-full container m-auto z-99 flex items-center h-full">
               <h1 className="text-white text-6xl font-bold w-1/2">bura star movie gelecek (ad, janr, ili,description, muddeti)</h1>
