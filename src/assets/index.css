@@ -3,9 +3,49 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* *{
-  outline: 1px solid red;
-} */
+.swiper-button-prev-custom, .swiper-button-next-custom {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 9999px;
+  width:50px;
+  height:50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 50;
+}
+
+.swiper-button-prev-custom:hover, .swiper-button-next-custom:hover {
+  background: rgba(255, 255, 255, 0.35);
+  scale: 1.1;
+}
+
+.swiper-button-prev-custom {
+  left: 1rem;
+}
+.swiper-button-next-custom {
+  right: 1rem;
+}
+
+@media (max-width: 640px) {
+  .swiper-button-prev-custom, .swiper-button-next-custom {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
