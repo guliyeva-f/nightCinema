@@ -1,7 +1,7 @@
 export const API = {
     //auth
     "login":"/auth/login",
-    "auth":'/auth/register',
+    "register":'/auth/register',
     "refresh-token":'/auth/refresh_token',
 
     // user

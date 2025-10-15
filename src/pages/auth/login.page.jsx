@@ -6,13 +6,13 @@ export default function LoginPage() {
 
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
-      <div className="flex flex-col gap-8 p-6 md:p-10">
-        <div className="flex justify-center gap-2">
-          <Link to="/" className="flex items-center gap-2 font-medium">
+      <div className="flex self-center flex-col gap-10">
+        <div className="flex justify-center">
+          <Link to="/">
             <img
               src="/img/logo.png"
               alt="App Logo"
-              className="size-40 object-contain"
+              className="w-[165px] object-contain"
             />
           </Link>
         </div>

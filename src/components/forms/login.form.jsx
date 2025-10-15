@@ -33,16 +33,16 @@ export function LoginForm({ className, ...props }) {
       if (response.success) {
         navigate("/profile");
       }
-    } 
+    }
     catch (error) {
       console.error("Login error:", error);
     }
   };
 
   return (
-    <form onSubmit={handleLogin} className={cn("flex flex-col gap-6", className)} {...props}>
-      <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
+    <form onSubmit={handleLogin} className={cn("", className)} {...props}>
+      <FieldGroup className={cn("gap-8", className)}>
+        <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">{t("welcomeMessage")}</h1>
           <p className="text-muted-foreground text-sm text-balance">
             {t("loginPrompt")}
@@ -54,16 +54,12 @@ export function LoginForm({ className, ...props }) {
             onChange={(e) => setEmail(e.target.value)} />
         </Field>
         <Field>
-          <div className="flex items-center">
-            <FieldLabel htmlFor="password">{t("passwordLabel")}</FieldLabel>
-          </div>
+          <FieldLabel htmlFor="password">{t("passwordLabel")}</FieldLabel>
           <Input id="password" type="password" placeholder={t("passwordPlaceholder")} required value={password}
             onChange={(e) => setPassword(e.target.value)} />
         </Field>
         <Field>
           <Button type="submit">{t("loginButton")}</Button>
-        </Field>
-        <Field>
           <FieldDescription className="text-center">
             {t("noAccountText")}{" "}
             <Link to="/auth/register" className="underline underline-offset-4">
