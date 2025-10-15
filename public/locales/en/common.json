@@ -5,5 +5,14 @@
   "movies": "Movies",
   "theaters": "Theaters",
   "contact": "Contact",
-  "profile": "Profile"
+  "profile": "Profile",
+  "welcomeMessage": "Welcome back!",
+  "loginPrompt": "Enter your email and password to log in",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "passwordPlaceholder": "Enter your password",
+  "loginButton": "Log In",
+  "emailPlaceholder": "example@example.com",
+  "noAccountText": "Don't have an account?",
+  "signUpText": "Sign Up"
 }

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthService } from "@/services/auth/auth.service";
 
 export function NavigationMenuDemo({ isOpen, onClose }) {
   const { t } = useTranslation();
@@ -49,7 +50,6 @@ export function NavigationMenuDemo({ isOpen, onClose }) {
       >
         {t("movies")}
       </Link>
-
       <Link
         className="lg:text-[18px] text-[20px]"
         to="/theaters"
@@ -57,7 +57,6 @@ export function NavigationMenuDemo({ isOpen, onClose }) {
       >
         {t("theaters")}
       </Link>
-
       <Link
         className="lg:text-[18px] text-[20px]"
         to="/contact"
@@ -65,10 +64,9 @@ export function NavigationMenuDemo({ isOpen, onClose }) {
       >
         {t("contact")}
       </Link>
-
       <Link
         className="lg:text-[18px] text-[20px]"
-        to="/profile"
+        to={AuthService.isLoggedIn() ? "/profile" : "/auth/login"}
         onClick={handleLinkClick}
       >
         {t("profile")}

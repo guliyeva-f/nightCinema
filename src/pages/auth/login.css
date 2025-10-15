@@ -1,0 +1,28 @@
+@keyframes heroMotion {
+  0% {
+    transform: scale(1) translate(0px, 0px) rotate(0deg);
+    filter: grayscale(0%) blur(1px);
+  }
+  25% {
+    transform: scale(1.05) translate(-5px, 3px) rotate(0.3deg);
+    filter: grayscale(30%) blur(1px);
+  }
+  50% {
+    transform: scale(1.1) translate(5px, -5px) rotate(-0.3deg);
+    filter: grayscale(100%) blur(2px);
+  }
+  75% {
+    transform: scale(1.05) translate(3px, 4px) rotate(0.2deg);
+    filter: grayscale(50%) blur(1px);
+  }
+  100% {
+    transform: scale(1) translate(0px, 0px) rotate(0deg);
+    filter: grayscale(0%) blur(1px);
+  }
+}
+
+.animated-hero {
+  animation: heroMotion 10s ease infinite;
+  transition: all 0.5s ease-in-out;
+  transform-origin: center;
+}

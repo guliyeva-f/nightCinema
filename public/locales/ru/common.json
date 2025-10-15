@@ -5,5 +5,14 @@
   "movies": "Фильмы",
   "theaters": "Театры",
   "contact": "Связь",
-  "profile": "Профиль"
+  "profile": "Профиль",
+  "welcomeMessage": "С возвращением!",
+  "loginPrompt": "Введите ваш email и пароль для входа",
+  "emailLabel": "Электронная почта",
+  "emailPlaceholder": "пример@example.com",
+  "passwordLabel": "Пароль",
+  "passwordPlaceholder": "Введите ваш пароль",
+  "loginButton": "Войти",
+  "noAccountText": "Нет аккаунта?",
+  "signUpText": "Зарегистрируйтесь"
 }
