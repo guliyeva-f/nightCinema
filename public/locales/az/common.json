@@ -5,5 +5,14 @@
   "movies": "Filmlər",
   "theaters": "Teatrlar",
   "contact": "Əlaqə",
-  "profile": "Profil"
+  "profile": "Profil",
+  "welcomeMessage": "Xoş gəlmisiniz!",
+  "loginPrompt": "Daxil olmaq üçün email və şifrənizi yazın",
+  "emailLabel": "Email",
+  "emailPlaceholder": "nümunə@example.com",
+  "passwordLabel": "Şifrə",
+  "passwordPlaceholder": "Şifrənizi daxil edin",
+  "loginButton": "Daxil ol",
+  "noAccountText": "Hesabınız yoxdur?",
+  "signUpText": "Qeydiyyatdan keçin"
 }
