@@ -69,6 +69,7 @@ export function LoginForm({ className, ...props }) {
       console.error("Login error:", error);
       toast.error(t("Server connection failed!"));
     }
+    toast.dismiss("login"); 
   };
 
   return (
