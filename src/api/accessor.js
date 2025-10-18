@@ -2,7 +2,11 @@ import { generateUniqueKey } from '@/utils/generate-unit-key';
 import axios from 'axios';
 import { AuthService } from '@/services/auth/auth.service';
 
-const baseURL = `/api`;
+// const baseURL = `/api`;
+// const baseURL = import.meta.env.VITE_APP_URL + '/api';
+const baseURL = import.meta.env.DEV
+  ? 'http://localhost:5000/api'
+  : import.meta.env.VITE_APP_URL + '/api';
 
 export const $axios = axios.create({
   baseURL,
