@@ -5,7 +5,7 @@ function TheatersPage() {
   const { t, i18n } = useTranslation();
 
   return (
-    <div className='h-screen flex items-center justify-center'>{t('theaters')}</div>
+    <div className='h-screen flex items-center justify-center'>{t('Theaters')}</div>
   )
 }
 

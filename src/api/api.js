@@ -2,9 +2,8 @@ import { API } from "./endpoints";
 
 let $api = (service, params)=> {
     const services = API
-
-    console.log(services);
-    console.log(services[service]);
+    // console.log(services);
+    // console.log(services[service]);
 
     let url = service;
     if (params) {

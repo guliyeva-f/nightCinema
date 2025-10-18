@@ -5,7 +5,7 @@ function ProfilePage() {
   const { t, i18n } = useTranslation();
 
   return (
-    <div className='h-screen flex items-center justify-center'>{t('profile')}</div>
+    <div className='h-screen flex items-center justify-center'>{t('Profile')}</div>
   )
 }
 
