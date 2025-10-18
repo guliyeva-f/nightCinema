@@ -48,28 +48,28 @@ export function NavigationMenuDemo({ isOpen, onClose }) {
         onClick={handleMoviesClick}
         className="lg:text-[18px] text-[20px] cursor-pointer"
       >
-        {t("movies")}
+        {t("Movies")}
       </Link>
       <Link
         className="lg:text-[18px] text-[20px]"
         to="/theaters"
         onClick={handleLinkClick}
       >
-        {t("theaters")}
+        {t("Theaters")}
       </Link>
       <Link
         className="lg:text-[18px] text-[20px]"
         to="/contact"
         onClick={handleLinkClick}
       >
-        {t("contact")}
+        {t("Contact")}
       </Link>
       <Link
         className="lg:text-[18px] text-[20px]"
         to={AuthService.isLoggedIn() ? "/profile" : "/auth/login"}
         onClick={handleLinkClick}
       >
-        {t("profile")}
+        {t("Profile")}
       </Link>
     </div>
   );

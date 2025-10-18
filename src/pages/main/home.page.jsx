@@ -29,7 +29,7 @@ function HomePage() {
         id="movies-section"
         ref={moviesRef}
         className="h-screen flex items-center justify-center text-4xl bg-neutral-900"
-      >{t("movies")}
+      >{t("Movies")}
       </section>
     </main>
   );

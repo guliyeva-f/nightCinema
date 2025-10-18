@@ -60,8 +60,8 @@ function CustomSwiper() {
                 className="text-center md:text-left w-full"
               >
                 <BlurText
-                  key={`${i18n.language}-${t('welcome')}`}
-                  text={t('welcome')}
+                  key={`${i18n.language}-${t('Welcome to Night Cinema')}`}
+                  text={t('Welcome to Night Cinema')}
                   delay={500}
                   animateBy="words"
                   direction="top"

@@ -1,7 +1,6 @@
 import { $axios } from "@/api/accessor";
 import { $api } from "@/api/api";
 import { API } from "@/api/endpoints";
-import toast from "react-hot-toast";
 
 export class AuthService {
   static userData = {};
@@ -16,56 +15,51 @@ export class AuthService {
 
   static async login(payload) {
     try {
-      const loginPromise = $axios.post($api(API.login), payload);
-
-      toast.promise(loginPromise, {
-        loading: "Daxil olunur..."
-      });
-
-      const response = await loginPromise;
+      const response = await $axios.post($api(API.login), payload);
 
       if (response.data.success) {
         localStorage.setItem("accessToken", response.data.data.accessToken);
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
         this.userData = response.data.data;
-      } 
-
-      else {
-        toast.error(response.data.errorMessage || "Login uğursuz oldu!");
       }
 
       return response.data;
-    } 
-    catch (error) {
+    } catch (error) {
       console.error("Login error:", error);
-      toast.error("Serverlə əlaqə qurulmadı.");
       throw error;
     }
   }
 
   static async register(payload) {
     try {
-       const registerPromise = $axios.post($api(API.register), payload);
+      const response = await $axios.post($api(API.register), payload);
+      return response.data;
+    } catch (error) {
+      console.error("Register error:", error);
+      throw error;
+    }
+  }
 
-      toast.promise(registerPromise, {
-        loading: "Qeydiyyat aparılır...",
+  static async refreshToken() {
+    try {
+      const refreshToken = localStorage.getItem("refreshToken");
+      if (!refreshToken) throw new Error("Refresh token not found");
+
+      const response = await $axios.post($api(API["refresh-token"]), {
+        refreshToken,
       });
 
-      const response = await registerPromise;
-
       if (response.data.success) {
-        toast.success("Qeydiyyat keçdin, indi isə daxil ol");
-      } 
-      else {
-        toast.error(response.data.errorMessage || "Qeydiyyat uğursuz oldu!");
+        localStorage.setItem("accessToken", response.data.data.accessToken);
+        localStorage.setItem("refreshToken", response.data.data.refreshToken);
+        return response.data.data.accessToken;
+      } else {
+        throw new Error("Token could not be refreshed");
       }
-
-      return response.data;
-    }
-    
-    catch (error) {
-      console.error("Register error:", error);
-      alert("Serverlə əlaqə qurulmadı.");
+    } catch (error) {
+      console.error("Refresh token error:", error);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       throw error;
     }
   }

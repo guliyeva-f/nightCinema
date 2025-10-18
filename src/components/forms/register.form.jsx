@@ -8,6 +8,7 @@ import { PhoneInput } from 'react-international-phone';
 import 'react-international-phone/style.css';
 import { AuthService } from '@/services/auth/auth.service';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 export function RegisterForm({ className, ...props }) {
   const [name, setName] = useState('');
@@ -16,56 +17,66 @@ export function RegisterForm({ className, ...props }) {
   const [password, setPassword] = useState('');
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!name.trim() || !email.trim() || !phone.trim() || !password.trim()) {
-      toast.error("Bütün xanaları doldur!");
+      toast.error(t("Please fill all fields!"));
       return;
     }
 
-    if (name.trim().length < 3) {
-      toast('Ad minimum 3 hərf olmalıdı!', {
-        icon: '⚠️',
-        style: {
-          borderRadius: '10px',
-          background: '#333',
-          color: '#fff',
-        },
+    if (name.trim().length < 2) {
+      toast(t("Name must be at least 2 letters!"), {
+        icon: '⚠️'
       });
       return;
     }
 
     if (password.length < 8) {
-      toast.error("Şifrə minimum 8 simvol olmalıdı!"); return;
-    }
-    
-    if (!emailRegex.test(email)) {
-      toast.error("Düzgün email daxil et!");
+      toast.error(t("Password must be at least 8 characters!"));
       return;
     }
 
-    try {
-      const response = await AuthService.register(
-        {
-          username: name,
-          email,
-          password,
-          phoneNumber: phone,
-        });
+    if (!emailRegex.test(email)) {
+      toast.error(t("Enter a valid email!"));
+      return;
+    }
+
+   try {
+      toast.loading(t("Registering..."), { id: "register" });
+
+      const response = await AuthService.register({
+        username: name,
+        email,
+        password,
+        phoneNumber: phone,
+      });
 
       console.log("Register response:", response);
+      toast.dismiss("register"); 
 
       if (response.success) {
-        // toast.success("Uğurla qeydiyyatdan keçdiniz!");
+        toast.success(t("Registration successful! Please log in."), { id: "register" });
         navigate("/auth/login");
+      } else {
+        const errorMsg = response?.errorMessage?.toLowerCase();
+
+        if (errorMsg.includes("email")) {
+          toast.error(t("This email is already taken."), { id: "register" });
+        } else if (errorMsg.includes("username")) {
+          toast.error(t("This username is already taken."), { id: "register" });
+        } else if (errorMsg.includes("phone")) {
+          toast.error(t("This phone number is already used."), { id: "register" });
+        } else {
+          toast.error(t("Registration failed!"), { id: "register" });
+        }
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Register error:", error);
-      // toast.error("Serverlə əlaqə qurulmadı!");
+      toast.error(t("Server connection failed!"), { id: "register" });
     }
   };
 
@@ -73,31 +84,31 @@ export function RegisterForm({ className, ...props }) {
     <form onSubmit={handleRegister} className={cn("", className)} {...props}>
       <FieldGroup className={cn("gap-4", className)}>
         <div className="flex flex-col items-center gap-2 text-center">
-          <h1 className="text-2xl font-bold">Create your account</h1>
-          <p className="text-muted-foreground text-sm text-balance">
-            Fill in the form below to create your account
+          <h1 className="text-2xl font-bold">{t("registerTitle")}</h1>
+          <p className="text-muted-foreground text-sm text-balance w-full">
+            {t("registerSubtitle")}
           </p>
         </div>
         <Field>
-          <FieldLabel htmlFor="name">Username</FieldLabel>
+          <FieldLabel htmlFor="name">{t("username")}</FieldLabel>
           <Input id="name"
             type="text"
-            placeholder="Fatimə"
+            placeholder="Fatima"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required />
         </Field>
         <Field>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <FieldLabel htmlFor="email">{t("Email")}</FieldLabel>
           <Input id="email"
             type="email"
-            placeholder="guliyeffa2l@gmail.com"
+            placeholder={t("example@example.com")}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required />
         </Field>
         <Field>
-          <FieldLabel htmlFor="phone">Phone</FieldLabel>
+          <FieldLabel htmlFor="phone">{t("phoneLabel")}</FieldLabel>
           <PhoneInput
             id="phone"
             defaultCountry="az"
@@ -118,20 +129,18 @@ export function RegisterForm({ className, ...props }) {
           />
         </Field>
         <Field>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <FieldLabel htmlFor="password">{t("Password")}</FieldLabel>
           <Input id="password"
             type="password"
-            placeholder="********"
+            placeholder={t("Enter your password")}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required />
         </Field>
         <Field>
-          <Button type="submit">Create Account</Button>
-        </Field>
-        <Field>
+          <Button type="submit" className={'cursor-pointer'}>{t("regButton")}</Button>
           <FieldDescription className="px-6 text-center">
-            Already have an account? <Link to="/auth/login">Sign in</Link>
+            {t("alreadyHaveAccount")} <Link to="/auth/login">{t("signInText")}</Link>
           </FieldDescription>
         </Field>
       </FieldGroup>
