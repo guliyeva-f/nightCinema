@@ -1,12 +1,15 @@
-import { generateUniqueKey } from '@/utils/generate-unit-key';
 import axios from 'axios';
 import { AuthService } from '@/services/auth/auth.service';
+import { generateUniqueKey } from '@/utils/generate-unit-key';
 
 // const baseURL = `/api`;
 // const baseURL = import.meta.env.VITE_APP_URL + '/api';
-const baseURL = import.meta.env.DEV
-  ? 'http://localhost:5000/api'
-  : import.meta.env.VITE_APP_URL + '/api';
+
+// const baseURL = import.meta.env.DEV
+//   ? 'http://localhost:5000/api'
+//   : import.meta.env.VITE_APP_URL + '/api';
+
+const baseURL = import.meta.env.DEV ? '/api' : import.meta.env.VITE_APP_URL + '/api';
 
 export const $axios = axios.create({
   baseURL,
@@ -20,7 +23,7 @@ $axios.interceptors.request.use(
       config.url =
         config.url +
         `${config?.url?.includes('?') ? `&${generateUniqueKey()}` : `?${generateUniqueKey()}`}`;
-      if (token) {
+      if (!config.url.includes('/auth/refresh_token') && token) {
         config.headers['Authorization'] = `Bearer ${token}`;
       }
       config.headers['X-Requested-With'] = 'XMLHttpRequest';
@@ -45,13 +48,20 @@ $axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
+
+    if (!originalRequest) return Promise.reject(error);
+
+    if (originalRequest.url.includes('/auth/refresh_token')) {
+      return Promise.reject(error);
+    }
+
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
-            originalRequest.headers['Authorization'] = 'Bearer ' + token;
+            originalRequest.headers['Authorization'] = `Bearer ${token}`;
             return $axios(originalRequest);
           })
           .catch((err) => Promise.reject(err));
@@ -61,18 +71,15 @@ $axios.interceptors.response.use(
       isRefreshing = true;
 
       try {
-        const newToken = await AuthService.refreshToken();
-        processQueue(null, newToken);
-        originalRequest.headers['Authorization'] = 'Bearer ' + newToken;
+        const newAccessToken = await AuthService.refreshToken();
+        processQueue(null, newAccessToken);
+        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
         return $axios(originalRequest);
-      } 
-      catch (refreshError) {
+      } catch (refreshError) {
         processQueue(refreshError, null);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        AuthService.logout();
         return Promise.reject(refreshError);
-      } 
-      finally {
+      } finally {
         isRefreshing = false;
       }
     }
