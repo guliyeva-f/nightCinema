@@ -28,11 +28,12 @@ function HomePage() {
       <section
         id="movies-section"
         ref={moviesRef}
-        className="h-screen flex items-center justify-center text-4xl bg-neutral-900"
+        className="h-screen flex items-center text-2xl justify-center bg-[#AA0000] bg-[radial-gradient(circle,_rgba(170,0,0,1)_0%,_rgba(31,28,24,1)_60%,_rgba(0,0,0,1)_100%)]"
       >{t("Movies")}
       </section>
     </main>
   );
 }
+
 
 export default HomePage;

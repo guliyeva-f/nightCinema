@@ -22,44 +22,66 @@ export class AuthService {
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
         this.userData = response.data.data;
       }
-
       return response.data;
-    } catch (error) {
-      console.error("Login error:", error);
-      throw error;
     }
+    catch (err) {
+      throw new Error('Login request failed: ' + err.message);
+    }
+  }
+
+  static logout() {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    this.userData = {};
+    // window.location.href = "/auth/login";
   }
 
   static async register(payload) {
     try {
       const response = await $axios.post($api(API.register), payload);
       return response.data;
-    } catch (error) {
-      console.error("Register error:", error);
-      throw error;
+    }
+    catch (err) {
+      throw new Error('Register request failed: ' + err.message);
     }
   }
+
 
   static async refreshToken() {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
       if (!refreshToken) throw new Error("Refresh token not found");
 
-      const response = await $axios.post($api(API["refresh-token"]), {
-        refreshToken,
-      });
+      const url = import.meta.env.DEV
+        ? "http://localhost:5000/api/auth/refresh_token"
+        : import.meta.env.VITE_APP_URL + "/api/auth/refresh_token";
 
-      if (response.data.success) {
-        localStorage.setItem("accessToken", response.data.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.data.refreshToken);
-        return response.data.data.accessToken;
-      } else {
-        throw new Error("Token could not be refreshed");
+      const response = await $axios.post(
+        url,
+        { refreshToken },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "*/*",
+          },
+        }
+      );
+
+      if (!response.data.success) {
+        throw new Error("Failed to refresh token");
       }
-    } catch (error) {
+
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        response.data.data;
+
+      localStorage.setItem("accessToken", newAccessToken);
+      localStorage.setItem("refreshToken", newRefreshToken);
+
+      console.log("Tokens refreshed successfully");
+      return newAccessToken;
+    } 
+    catch (error) {
       console.error("Refresh token error:", error);
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
       throw error;
     }
   }
