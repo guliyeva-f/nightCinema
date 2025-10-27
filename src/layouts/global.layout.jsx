@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import Lenis from "@studio-freight/lenis";
+import Lenis from 'lenis';
 import { Outlet } from "react-router-dom";
 
 function GlobalLayout() {
