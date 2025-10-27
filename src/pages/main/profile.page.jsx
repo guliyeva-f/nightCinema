@@ -52,7 +52,7 @@ function ProfilePage() {
   }
 
   return (
-    <div className='h-screen flex flex-col gap-5 bg-[#AA0000] pt-[100px] bg-[radial-gradient(circle,_rgba(170,0,0,1)_0%,_rgba(31,28,24,1)_60%,_rgba(0,0,0,1)_100%)] pb-5'>
+    <div className='h-screen flex flex-col gap-2 bg-[#AA0000] pt-[100px] bg-[radial-gradient(circle,_rgba(170,0,0,1)_0%,_rgba(31,28,24,1)_60%,_rgba(0,0,0,1)_100%)] pb-5'>
       <ProfHead user={user} />
       <div className='container p-9 mx-auto bg-black/30 rounded-[0px_0px_50px_50px] border-2 border-white h-full flex items-center justify-center' style={{ borderStyle: "inset" }}>
         <Outlet />
