@@ -25,12 +25,12 @@ export function NavMain({
     <SidebarGroup>
       <SidebarMenu>
         <SidebarMenuItem key={'dashboard'}>
-          <SidebarMenuButton className={'cursor-pointer text-[16px] font-medium'} tooltip={'dashboard'}>
-            <LayoutDashboard />
-            <Link to={'/admin/dashboard'}>
+          <Link to={'/admin/dashboard'}>
+            <SidebarMenuButton className={'cursor-pointer text-[16px] font-medium'} tooltip={'dashboard'}>
+              <LayoutDashboard />
               <span>Dashboard</span>
-            </Link>
-          </SidebarMenuButton>
+            </SidebarMenuButton>
+          </Link>
         </SidebarMenuItem>
       </SidebarMenu>
       <SidebarSeparator />

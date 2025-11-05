@@ -3,15 +3,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
-.swiper-button-prev-custom, .swiper-button-next-custom {
+.swiper-button-prev-custom,
+.swiper-button-next-custom {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   border-radius: 9999px;
-  width:50px;
-  height:50px;
+  width: 60px;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,20 +20,24 @@
   z-index: 50;
 }
 
-.swiper-button-prev-custom:hover, .swiper-button-next-custom:hover {
+.swiper-button-prev-custom:hover,
+.swiper-button-next-custom:hover {
   background: rgba(255, 255, 255, 0.35);
   scale: 1.1;
 }
 
 .swiper-button-prev-custom {
-  left: 1rem;
+  left: 10px;
 }
+
 .swiper-button-next-custom {
-  right: 1rem;
+  right: 10px;
 }
 
 @media (max-width: 640px) {
-  .swiper-button-prev-custom, .swiper-button-next-custom {
+
+  .swiper-button-prev-custom,
+  .swiper-button-next-custom {
     width: 35px;
     height: 35px;
   }
@@ -158,11 +163,12 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-/* *{
+/* * {
   outline: 1px solid yellow;
 } */

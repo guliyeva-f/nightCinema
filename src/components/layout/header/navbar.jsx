@@ -31,7 +31,7 @@ export function NavigationMenuDemo({ isOpen, onClose }) {
   };
 
   return (
-    <div
+    <div style={{ fontFamily: 'Outfit, sans-serif' }}
       className={`flex flex-col lg:flex-row gap-6 items-center py-10
         font-medium text-white px-4 lg:px-6 lg:py-3 backdrop-blur bg-black/50 lg:bg-black/10 lg:h-[55px] h-screen
         border border-gray-300/20 lg:border-0 duration-300

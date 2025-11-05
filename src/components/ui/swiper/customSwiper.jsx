@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectFade, Navigation, Pagination } from 'swiper/modules';
+import { EffectFade, Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { GrPrevious, GrNext } from "react-icons/gr";
 import { motion } from "framer-motion";
 
@@ -12,13 +12,21 @@ import './styles.css';
 
 import { useTranslation } from 'react-i18next';
 import BlurText from '../blurText';
+import { CalendarRange, ClockFading } from 'lucide-react';
 
 function CustomSwiper() {
-  const { t, i18n } = useTranslation();
-  const handleAnimationComplete = () => {
-    console.log('Animation completed!');
+  const starMovie = {
+    name: "Iron Man",
+    description:
+      'The "Iron Man" movie (2008) is about billionaire industrialist and genius inventor Tony Stark who is kidnapped and forced to build a weapon. Instead, he uses his ingenuity to construct a high-tech suit of armor and escapes captivity. After returning, he refines the suit to become the superhero Iron Man to combat a global conspiracy and protect the world.',
+    backgroundImgUrl:
+      "https://img10.hotstar.com/image/upload/f_auto,q_auto/sources/r1/cms/prod/9337/809337-i",
+    genres: ["Action", "Adventure", "Sci-Fi"],
+    movieDuration: "03:32:05",
+    releaseDate: "2025-11-03",
   };
 
+  const { t, i18n } = useTranslation();
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const swiperRef = useRef(null);
@@ -44,14 +52,18 @@ function CustomSwiper() {
         spaceBetween={30}
         effect="fade"
         loop={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
         pagination={{ clickable: true }}
-        modules={[EffectFade, Navigation, Pagination]}
+        modules={[EffectFade, Navigation, Pagination, Autoplay]}
         className="mySwiper"
       >
         <SwiperSlide className="h-full">
-          <div className="w-full h-screen bg-[url('/img/hero.jpg')] p-16 bg-cover bg-center relative">
+          <div className="w-full h-screen bg-[url('/img/hero.jpg')] bg-cover bg-center relative">
             <div className="absolute inset-0 bg-black/50"></div>
-            <div className="w-full container m-auto z-10 flex items-center h-full">
+            <div className="w-full container m-auto relative z-10 flex items-center h-full">
               <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -65,30 +77,30 @@ function CustomSwiper() {
                   delay={500}
                   animateBy="words"
                   direction="top"
-                  onAnimationComplete={handleAnimationComplete}
-                  className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mb-8 px-4"
+                  className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl mb-8 px-[50px] lg:px-20"
                 />
               </motion.div>
             </div>
           </div>
         </SwiperSlide>
-        <SwiperSlide>
-          <div className="w-full h-screen bg-[url('/img/hero2.jpg')] bg-cover bg-center relative">
-            <div className="absolute inset-0 bg-black/50 z-50"></div>
-            <div className="w-full container m-auto z-99 flex items-center justify-center lg:justify-start h-full">
-              <motion.div
-                initial={{ opacity: 0, x: 100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.9, ease: "easeOut" }}
-                className="text-white max-w-xl text-center lg:text-left"
-              >
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
-                  {'Star Movie gələcək'}
-                </h1>
-                <p className="text-lg sm:text-xl opacity-90 leading-relaxed">
-                  {'Adi, janri, il, müddət, description və s.'}
-                </p>
-              </motion.div>
+        <SwiperSlide className='h-full'>
+          <div className="w-full h-screen bg-cover bg-center relative" style={{ backgroundImage: `url(${starMovie.backgroundImgUrl})` }}>
+            <div className="absolute inset-0 bg-black/50 z-[1]"></div>
+            <div className="w-full p-[50px] lg:p-20 gap-5 relative flex-col z-[2] container m-auto h-full text-5xl sm:text-6xl md:text-7xl lg:text-8xl flex justify-center items-start">
+              <h1 className="font-semibold max-w-110" style={{ fontFamily: 'Anton, sans-serif' }}>
+                {starMovie.name}
+              </h1>
+              <div class="text-[16px] sm:text-[16px] flex flex-col gap-5 md:text-[20px] lg:text-[24px]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+                <div className='flex-col md:flex-row flex gap-2 md:gap-5'>
+                  <span>{starMovie.genres.join(" | ")}</span>
+                  <div className='flex gap-6'>
+                    <span className='flex items-center gap-2'><CalendarRange size="20" />{starMovie.releaseDate}</span>
+                    <span className='flex items-center gap-2'><ClockFading size="20" />{starMovie.movieDuration}</span>
+                  </div>
+                </div>
+                <p className='max-w-[650px] text-[14px] sm:text-[14px] md:text-[16px] lg:text-[20px] text-gray-200'>{starMovie.description}</p>
+              </div>
+              <button class="flex items-center gap-1 px-6 py-3 text-sm bg-red-800 rounded-full font-medium cursor-pointer">About</button>
             </div>
           </div>
         </SwiperSlide>

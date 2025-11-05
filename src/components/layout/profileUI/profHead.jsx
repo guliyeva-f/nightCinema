@@ -34,7 +34,7 @@ function ProfHead({ user }) {
     return (
         <>
             <div className='container mx-auto p-[10px] md:p-[10px_20px] bg-black/30 flex flex-col justify-between items-center rounded-[50px_50px_0px_0px] border-2 border-white'
-                style={{ borderStyle: "inset" }}>
+                style={{ borderStyle: "inset", fontFamily: 'Outfit, sans-serif' }}>
                 <div className="flex items-center justify-between w-full">
                     <div className='flex justify-center gap-3 items-center'>
                         <div className='w-[60px] h-[60px] md:w-[80px] md:h-[80px] md-h[80px]'>

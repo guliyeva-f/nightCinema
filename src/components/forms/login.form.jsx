@@ -39,12 +39,12 @@ export function LoginForm({ className, ...props }) {
 
       const response = await AuthService.login({ email, password });
       console.log("Login response:", response);
-      toast.dismiss("login"); 
+      toast.dismiss("login");
 
       if (response.success) {
         toast.success(t("Login successful!"));
         navigate("/profile");
-      } 
+      }
       else {
         if (response.errorMessage) {
           switch (response.errorMessage.toLowerCase()) {
@@ -69,11 +69,11 @@ export function LoginForm({ className, ...props }) {
       console.error("Login error:", error);
       toast.error(t("Server connection failed!"));
     }
-    toast.dismiss("login"); 
+    toast.dismiss("login");
   };
 
   return (
-    <form onSubmit={handleLogin} className={cn("", className)} {...props}>
+    <form style={{ fontFamily: 'Outfit, sans-serif' }} onSubmit={handleLogin} className={cn("", className)} {...props}  >
       <FieldGroup className={cn("gap-8", className)}>
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">{t("Welcome back!")}</h1>

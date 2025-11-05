@@ -81,7 +81,7 @@ export function RegisterForm({ className, ...props }) {
   };
 
   return (
-    <form onSubmit={handleRegister} className={cn("", className)} {...props}>
+    <form style={{ fontFamily: 'Outfit, sans-serif' }} onSubmit={handleRegister} className={cn("", className)} {...props}>
       <FieldGroup className={cn("gap-4", className)}>
         <div className="flex flex-col items-center gap-2 text-center">
           <h1 className="text-2xl font-bold">{t("registerTitle")}</h1>

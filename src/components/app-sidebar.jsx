@@ -13,7 +13,6 @@ import {
   UserStar,
   Watch,
   Moon,
-  Home,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -24,9 +23,6 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { ScrollArea } from "./ui/scroll-area"
@@ -45,33 +41,11 @@ export const data = {
     }
   ],
   navMain: [
-    {
-      title: "Users",
-      url: "/admin/users/add-user",
-      icon: Users,
-      isActive: true,
-      items: [
-        {
-          title: "Add User",
-          url: "/admin/users/add-user",
-          icon: Plus,
-        },
-        {
-          title: "Edit User",
-          url: "/admin/users/edit-user",
-          icon: Settings2,
-        },
-        {
-          title: "Delete User",
-          url: "/admin/users/delete-user",
-          icon: Trash,
-        },
-      ],
-    },
-    {
+   {
       title: "Movies",
       url: "/admin/movies/add-movie",
       icon: Clapperboard,
+      isActive: true,
       items: [
         {
           title: "Add Movie",
@@ -86,6 +60,28 @@ export const data = {
         {
           title: "Delete Movie",
           url: "/admin/movies/delete-movie",
+          icon: Trash,
+        },
+      ],
+    },
+    {
+      title: "Users",
+      url: "/admin/users/add-user",
+      icon: Users,
+      items: [
+        {
+          title: "Add User",
+          url: "/admin/users/add-user",
+          icon: Plus,
+        },
+        {
+          title: "Edit User",
+          url: "/admin/users/edit-user",
+          icon: Settings2,
+        },
+        {
+          title: "Delete User",
+          url: "/admin/users/delete-user",
           icon: Trash,
         },
       ],
