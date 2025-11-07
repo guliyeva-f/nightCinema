@@ -16,7 +16,6 @@ function HomePage() {
         setTimeout(tryRegisterScroll, 300);
       }
     };
-
     tryRegisterScroll();
   }, []);
 

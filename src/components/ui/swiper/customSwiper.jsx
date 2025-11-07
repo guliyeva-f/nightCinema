@@ -90,7 +90,7 @@ function CustomSwiper() {
               <h1 className="font-semibold max-w-110" style={{ fontFamily: 'Anton, sans-serif' }}>
                 {starMovie.name}
               </h1>
-              <div class="text-[16px] sm:text-[16px] flex flex-col gap-5 md:text-[20px] lg:text-[24px]" style={{ fontFamily: 'Outfit, sans-serif' }}>
+              <div className="text-[16px] sm:text-[16px] flex flex-col gap-5 md:text-[20px] lg:text-[24px]" style={{ fontFamily: 'Outfit, sans-serif' }}>
                 <div className='flex-col md:flex-row flex gap-2 md:gap-5'>
                   <span>{starMovie.genres.join(" | ")}</span>
                   <div className='flex gap-6'>
@@ -100,7 +100,7 @@ function CustomSwiper() {
                 </div>
                 <p className='max-w-[650px] text-[14px] sm:text-[14px] md:text-[16px] lg:text-[20px] text-gray-200'>{starMovie.description}</p>
               </div>
-              <button class="flex items-center gap-1 px-6 py-3 text-sm bg-red-800 rounded-full font-medium cursor-pointer">About</button>
+              <button className="flex items-center gap-1 px-6 py-3 text-sm bg-red-800 rounded-full font-medium cursor-pointer">About</button>
             </div>
           </div>
         </SwiperSlide>

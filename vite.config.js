@@ -1,12 +1,10 @@
 import path from "path";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite"; // ⬅️ loadEnv əlavə edildi
+import { defineConfig, loadEnv } from "vite";
 
 export default defineConfig(({ mode }) => {
-  // 🔥 Env faylını əllə yüklə
-  const env = loadEnv(mode, process.cwd(), ""); // bütün env-ləri oxuyur
-
+  const env = loadEnv(mode, process.cwd(), "");
   const API_URL = env.VITE_APP_URL || "http://localhost:5000";
   const PORT = env.VITE_PORT || 3333;
 

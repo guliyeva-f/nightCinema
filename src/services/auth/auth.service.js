@@ -33,7 +33,7 @@ export class AuthService {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     this.userData = {};
-    // window.location.href = "/auth/login";
+    window.location.href = "/auth/login";
   }
 
   static async register(payload) {
@@ -45,7 +45,6 @@ export class AuthService {
       throw new Error('Register request failed: ' + err.message);
     }
   }
-
 
   static async refreshToken() {
     try {
@@ -79,7 +78,7 @@ export class AuthService {
 
       console.log("Tokens refreshed successfully");
       return newAccessToken;
-    } 
+    }
     catch (error) {
       console.error("Refresh token error:", error);
       throw error;

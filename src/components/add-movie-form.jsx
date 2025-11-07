@@ -9,8 +9,18 @@ import DatePickerWithIconDemo from "./shadcn-studio/date-picker/date-picker-03";
 import SwitchPermanentIndicatorDemo from "./shadcn-studio/switch/switch-13";
 import TimePickerWithIconDemo from "./shadcn-studio/date-picker/date-picker-09";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import $axios from "@/api/accessor";
+import { $api } from "@/api/api";
+import { API } from "@/api/endpoints";
+import { MultiSelect, MultiSelectContent, MultiSelectGroup, MultiSelectItem, MultiSelectTrigger, MultiSelectValue } from "./ui/multi-select";
+import { GENRES } from "@/const/genres";
 
 export default function AddMovieForm() {
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -25,7 +35,7 @@ export default function AddMovieForm() {
       coverPhotoUrl: "",
       trailerUrl: "",
       backgroundImgUrl: "",
-      genres: [],
+      genre: [],
       actors: [],
       starMovie: false,
       releaseDate: "",
@@ -33,8 +43,8 @@ export default function AddMovieForm() {
     },
   });
 
-  const onSubmit = (data) => {
-    if (!data.genres.length) {
+  const onSubmit = async (data) => {
+    if (!data.genre.length) {
       alert("Please add at least one genre.");
       return;
     }
@@ -49,12 +59,30 @@ export default function AddMovieForm() {
       director: data.director.trim(),
       description: data.description.trim(),
       coverPhotoUrl: data.coverPhotoUrl.trim(),
+      genre: data.genre.map(g => g.toUpperCase()),
       trailerUrl: data.trailerUrl.trim(),
       backgroundImgUrl: data.backgroundImgUrl.trim(),
-    };
+    }; 
+    try {
+      setIsSubmitting(true);
+      const res = await $axios.post($api(API['add-movie']), payload);
+      console.log(res);
 
-    console.log("Payload ready for backend:", payload);
-    alert("Movie added successfully!");
+      if (res.data?.success) {
+        alert("Movie added successfully!");
+        // navigate("/admin/movies");
+      } else {
+        alert(res.data?.message || "Failed to add movie");
+      }
+    } 
+    catch (err) {
+      console.error("Add movie error:", err);
+      const msg = err?.response?.data?.message || err.message || "Unexpected error";
+      alert("Error: " + msg);
+    } 
+    finally {
+      setIsSubmitting(false);
+    }
   };
 
   const urlPattern = /^https?:\/\/.+$/;
@@ -131,20 +159,38 @@ export default function AddMovieForm() {
               <div className="col-span-full lg:col-span-3">
                 <Controller
                   control={control}
-                  name="genres"
+                  name="genre"
                   rules={{
-                    validate: (value) => value.length > 0 || "Please add at least one genre"
+                    validate: (value) => value.length > 0 || "Please select at least one genre",
                   }}
                   render={({ field, fieldState }) => (
                     <>
-                      <EditableTagsInput
-                        label="Genres"
-                        placeholder="Add genre.."
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
+                      <Label
+                        htmlFor="genre"
+                        className="text-sm font-medium text-foreground dark:text-foreground">
+                        Genre
+                      </Label>
+                      <MultiSelect values={field.value}
+                        onValuesChange={field.onChange}
+                      >
+                        <MultiSelectTrigger className="w-full mt-2">
+                          <MultiSelectValue placeholder="Select genres..." />
+                        </MultiSelectTrigger>
+                        <MultiSelectContent search={{ placeholder: "Search genre..." }}>
+                          <MultiSelectGroup>
+                            {Object.entries(GENRES).map(([key, label]) => (
+                              <MultiSelectItem key={key} value={key.toLowerCase()}>
+                                {label}
+                              </MultiSelectItem>
+                            ))}
+                          </MultiSelectGroup>
+                        </MultiSelectContent>
+                      </MultiSelect>
+
                       {fieldState.error && (
-                        <p className="text-red-400 ml-2 text-[12px]">{fieldState.error.message}</p>
+                        <p className="text-red-400 ml-2 text-[12px]">
+                          {fieldState.error.message}
+                        </p>
                       )}
                     </>
                   )}
@@ -157,18 +203,29 @@ export default function AddMovieForm() {
                   control={control}
                   name="actors"
                   rules={{
-                    validate: (value) => value.length > 0 || "Please add at least one actor"
+                    validate: (value) => value.length > 0 || "Please add at least one actor",
                   }}
                   render={({ field, fieldState }) => (
                     <>
-                      <EditableTagsInput
-                        label="Actors"
-                        placeholder="Add actor.."
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
+                      <Label
+                        htmlFor="actors"
+                        className="text-sm font-medium text-foreground dark:text-foreground"
+                      >
+                        Actors
+                      </Label>
+
+                      <div className="mt-2">
+                        <EditableTagsInput
+                          placeholder="Add actor..."
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </div>
+
                       {fieldState.error && (
-                        <p className="text-red-400 ml-2 text-[12px]">{fieldState.error.message}</p>
+                        <p className="text-red-400 ml-2 text-[12px]">
+                          {fieldState.error.message}
+                        </p>
                       )}
                     </>
                   )}
@@ -314,7 +371,7 @@ export default function AddMovieForm() {
                         placeholder="https://example.com/photo.jpg"
                         className={`mt-2 ${!isStarMovie ? "opacity-50 cursor-not-allowed" : ""}`}
                         {...register("backgroundImgUrl", {
-                          required: isStarMovie ? "Background image URL is required" : false, 
+                          required: isStarMovie ? "Background image URL is required" : false,
                           pattern: {
                             value: /^https?:\/\/.+$/,
                             message: "Invalid URL",
@@ -331,14 +388,10 @@ export default function AddMovieForm() {
             </div>
           </div>
         </div>
-
         <Separator className="my-5" />
         <div className="flex items-center justify-end space-x-4">
-          {/* <Button type="button" variant="outline" className="whitespace-nowrap">
-            Go back
-          </Button> */}
-          <Button type="submit" className="whitespace-nowrap">
-            Add Movie
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Adding..." : "Add Movie"}
           </Button>
         </div>
       </form >

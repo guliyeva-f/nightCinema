@@ -23,7 +23,7 @@
   "alreadyHaveAccount": "Уже есть аккаунт?",
   "signInText": "Войти",
   "Login successful!": "Вход выполнен успешно!",
-  "Email not found!": "Электронная почта не найдена!",
+  "Email or username not found!": "Электронная почта или имя пользователя не найдена!",
   "Password is incorrect!": "Неверный пароль!",
   "Invalid login data!": "Неверные данные для входа!",
   "Login failed. Please try again.": "Ошибка входа. Попробуйте снова.",
@@ -35,4 +35,7 @@
   "This username is already taken.": "Имя уже занято.",
   "This phone number is already used.": "Номер уже используется.",
   "Registration failed!": "Регистрация не удалась!",
- "Logging in...": "Вход..."}
+  "Logging in...": "Вход...",
+  "Email or Username": "Электронная почта или имя пользователя",
+  "Enter your email or username": "Введите электронную почту или имя пользователя"
+}

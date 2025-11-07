@@ -18,9 +18,7 @@ import DeleteRoomPage from "@/pages/admin/rooms/delete-room.page";
 import AddSessionPage from "@/pages/admin/sessions/add-session.page";
 import DeleteSessionPage from "@/pages/admin/sessions/delete-session.page";
 import EditSessionPage from "@/pages/admin/sessions/edit-session.page";
-import AddUserPage from "@/pages/admin/users/add-user.page";
 import DeleteUserPage from "@/pages/admin/users/delete-user.page";
-import EditUserPage from "@/pages/admin/users/edit-user.page";
 import LoginPage from "@/pages/auth/login.page";
 import RegisterPage from "@/pages/auth/register.page";
 import ContactPage from "@/pages/main/contact.page";
@@ -56,9 +54,9 @@ export const router = createBrowserRouter(
         <Route path="dashboard" element={<DashboardPage />} />
 
         <Route path="users">
-          <Route index element={<Navigate to="add-user" />} />
-          <Route path="add-user" element={<AddUserPage />} />
-          <Route path="edit-user" element={<EditUserPage />} />
+          <Route index element={<Navigate to="delete-user" />} />
+          {/* <Route path="add-user" element={<AddUserPage />} /> */}
+          {/* <Route path="edit-user" element={<EditUserPage />} /> */}
           <Route path="delete-user" element={<DeleteUserPage />} />
         </Route>
 

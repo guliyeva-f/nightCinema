@@ -23,7 +23,7 @@
   "alreadyHaveAccount": "Already have account?",
   "signInText": "Sign in",
   "Login successful!": "Login successful!",
-  "Email not found!": "Email not found!",
+  "Email or username not found!": "Email or username not found!",
   "Password is incorrect!": "Password is incorrect!",
   "Invalid login data!": "Invalid login data!",
   "Login failed. Please try again.": "Login failed. Try again.",
@@ -35,5 +35,7 @@
   "This username is already taken.": "This username is already taken.",
   "This phone number is already used.": "This phone number is already used.",
   "Registration failed!": "Registration failed!",
-   "Logging in...": "Logging in..."
+  "Logging in...": "Logging in...",
+  "Email or Username": "Email or Username",
+  "Enter your email or username": "Enter your email or username"
 }

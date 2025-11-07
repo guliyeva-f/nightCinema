@@ -69,16 +69,16 @@ export const data = {
       url: "/admin/users/add-user",
       icon: Users,
       items: [
-        {
-          title: "Add User",
-          url: "/admin/users/add-user",
-          icon: Plus,
-        },
-        {
-          title: "Edit User",
-          url: "/admin/users/edit-user",
-          icon: Settings2,
-        },
+        // {
+        //   title: "Add User",
+        //   url: "/admin/users/add-user",
+        //   icon: Plus,
+        // },
+        // {
+        //   title: "Edit User",
+        //   url: "/admin/users/edit-user",
+        //   icon: Settings2,
+        // },
         {
           title: "Delete User",
           url: "/admin/users/delete-user",

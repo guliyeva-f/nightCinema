@@ -22,7 +22,7 @@
   "alreadyHaveAccount": "Artıq hesabınız var?",
   "signInText": "Daxil olun",
   "Login successful!": "Giriş uğurla həyata keçirildi!",
-  "Email not found!": "Email tapılmadı!",
+  "Email or username not found!": "Email və ya istifadəçi adı tapılmadı!",
   "Password is incorrect!": "Şifrə yanlışdır!",
   "Invalid login data!": "Daxil edilən məlumat yanlışdır!",
   "Login failed. Please try again.": "Giriş alınmadı. Yenidən cəhd et.",
@@ -34,5 +34,7 @@
   "This username is already taken.": "Bu istifadəçi adı artıq mövcuddur.",
   "This phone number is already used.": "Bu nömrə istifadə olunur.",
   "Registration failed!": "Qeydiyyat uğursuz oldu!",
-    "Logging in...": "Daxil olunur..."
+  "Logging in...": "Daxil olunur...",
+  "Email or Username": "Email və ya istifadəçi adı",
+  "Enter your email or username": "Email və ya istifadəçi adınızı daxil edin"
 }

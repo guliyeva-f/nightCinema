@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 
 export function LoginForm({ className, ...props }) {
-  const [email, setEmail] = useState("");
+  const [emailOrUsername, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ export function LoginForm({ className, ...props }) {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      toast.error(t("Enter a valid email!"));
+    if (!emailOrUsername.trim()) {
+      toast.error(t("Please enter your email or username!"));
       return;
     }
 
@@ -37,7 +37,7 @@ export function LoginForm({ className, ...props }) {
     try {
       toast.loading(t("Logging in..."), { id: "login" });
 
-      const response = await AuthService.login({ email, password });
+      const response = await AuthService.login({ emailOrUsername, password });
       console.log("Login response:", response);
       toast.dismiss("login");
 
@@ -49,7 +49,8 @@ export function LoginForm({ className, ...props }) {
         if (response.errorMessage) {
           switch (response.errorMessage.toLowerCase()) {
             case "email not found":
-              toast.error(t("Email not found!"));
+            case "username not found":
+              toast.error(t("Email or username not found!"));
               break;
             case "password is incorrect":
               toast.error(t("Password is incorrect!"));
@@ -82,9 +83,14 @@ export function LoginForm({ className, ...props }) {
           </p>
         </div>
         <Field>
-          <FieldLabel htmlFor="email">{t("Email")}</FieldLabel>
-          <Input id="email" type="email" placeholder={t("example@example.com")} required value={email}
-            onChange={(e) => setEmail(e.target.value)} />
+          <FieldLabel htmlFor="emailOrUsername">{t("Email or Username")}</FieldLabel>
+          <Input id="emailOrUsername"
+            type="text"
+            placeholder={t("Enter your email or username")}
+            required
+            value={emailOrUsername}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </Field>
         <Field>
           <FieldLabel htmlFor="password">{t("Password")}</FieldLabel>

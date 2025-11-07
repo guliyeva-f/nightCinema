@@ -72,14 +72,17 @@ $axios.interceptors.response.use(
 
       try {
         const newAccessToken = await AuthService.refreshToken();
+        $axios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
         processQueue(null, newAccessToken);
         originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
         return $axios(originalRequest);
-      } catch (refreshError) {
+      }
+      catch (refreshError) {
         processQueue(refreshError, null);
         AuthService.logout();
         return Promise.reject(refreshError);
-      } finally {
+      } 
+      finally {
         isRefreshing = false;
       }
     }

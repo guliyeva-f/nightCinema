@@ -27,7 +27,6 @@ export function EditableTagsInput({
 
   return (
     <TagsInput value={value} onValueChange={onChange} editable addOnPaste>
-      <TagsInputLabel>{label}</TagsInputLabel>
       <TagsInputList>
         {value.map((v) => (
           <TagsInputItem key={v} value={v}>
