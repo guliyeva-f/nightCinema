@@ -3,7 +3,6 @@ import { NavigationMenuDemo } from "./navbar";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LanguageSelect } from "./lang.select";
 import { Squash as Hamburger } from "hamburger-react";
-import { ModeToggle } from '@/components/mode-toggle'
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +28,7 @@ function Header() {
   };
 
   return (
-    <header className='w-full h-[80px] fixed top-0 left-0 z-50 max-sm:p-[10px] max-md:p-[8px_20px] max-lg:p-[10px_30px] md:h-[90px] max-xl:p-[10px] xl:p-[10px_30px]'>
+    <header className='w-full h-20 fixed top-0 left-0 z-50 max-sm:p-2.5 max-md:p-[8px_20px] max-lg:p-[10px_30px] md:h-[90px] max-xl:p-2.5 xl:p-[10px_30px]'>
       <nav className='container m-auto bg-transparent flex items-center justify-between h-full'>
         <Link to="/"
           onClick={handleLogoClick}
@@ -48,9 +47,8 @@ function Header() {
           />
         </div>
         <NavigationMenuDemo isOpen={isOpen} onClose={() => setIsOpen(false)} />
-        <div className='flex items-center max-lg:order-first gap-[10px]'>
+        <div className='flex items-center max-lg:order-first gap-2.5'>
           <LanguageSelect />
-          {/* <ModeToggle /> */}
         </div>
       </nav>
     </header>

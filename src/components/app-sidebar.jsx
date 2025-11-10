@@ -53,15 +53,15 @@ export const data = {
           icon: Plus,
         },
         {
-          title: "Edit Movie",
-          url: "/admin/movies/edit-movie",
+          title: "Edit & Delete Movie",
+          url: "/admin/movies/edit-delete-movie",
           icon: Settings2,
         },
-        {
-          title: "Delete Movie",
-          url: "/admin/movies/delete-movie",
-          icon: Trash,
-        },
+        // {
+        //   title: "Delete Movie",
+        //   url: "/admin/movies/delete-movie",
+        //   icon: Trash,
+        // },
       ],
     },
     {

@@ -1,11 +1,11 @@
 export const GENRES = {
   ACTION: "Action",
-//   ADVENTURE: "Adventure",
+  ADVENTURE: "Adventure",
   DRAMA: "Drama",
   COMEDY: "Comedy",
   THRILLER: "Thriller",
   ROMANCE: "Romance",
   HORROR: "Horror",
-//   SCIFI: "Sci-Fi",
+  SCI_FI: "Sci-Fi",
   FANTASY: "Fantasy",
 };

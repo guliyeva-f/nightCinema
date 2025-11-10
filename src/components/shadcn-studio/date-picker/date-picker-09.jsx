@@ -8,7 +8,6 @@ const TimePickerWithIconDemo = ({ value, onChange }) => {
         <div
           className='text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-3 peer-disabled:opacity-50'>
           <Clock8Icon className='size-4' />
-          <span className='sr-only'>User</span>
         </div>
         <Input
           type='time'

@@ -10,7 +10,7 @@ import { CircleLoader, ClockLoader } from "react-spinners";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Trash2 } from 'lucide-react';
 
-const TableWithAvatarDemo = () => {
+const DeleteUserTable = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
@@ -29,7 +29,7 @@ const TableWithAvatarDemo = () => {
           phoneNumber: user.phoneNumber || "—",
           role: user.role || "USER",
           createdAt: new Date(user.createdAt).toLocaleDateString(),
-          profilePhotoUrl: user.profilePhotoUrl !== "string" ? user.profilePhotoUrl : "",
+          profilePhotoUrl: user.profilePhotoUrl?.startsWith('http') ? user.profilePhotoUrl : "",
         }));
 
         setUsers(mappedUsers);
@@ -50,7 +50,9 @@ const TableWithAvatarDemo = () => {
   const handleDelete = async (id) => {
     try {
       setDeletingId(id);
-      const res = await $axios.delete($api(`${API['delete-user']}?id=${id}`));
+      const res = await $axios.delete($api(`${API['delete-user']}/${id}`));
+      console.log(res);
+      
       if (res.data?.success) {
         toast.success("User deleted successfully");
         setUsers((prev) => prev.filter((user) => user.id !== id));
@@ -174,4 +176,4 @@ const TableWithAvatarDemo = () => {
   );
 };
 
-export default TableWithAvatarDemo;
+export default DeleteUserTable;

@@ -9,8 +9,7 @@ import DashboardPage from "@/pages/admin/dashboard.page";
 import AddLangPage from "@/pages/admin/languages/add-lang.page";
 import DeleteLangPage from "@/pages/admin/languages/delete-lang.page";
 import AddMoviePage from "@/pages/admin/movies/add-movie.page";
-import DeleteMoviePage from "@/pages/admin/movies/delete-movie.page";
-import EditMoviePage from "@/pages/admin/movies/edit-movie.page";
+import EditDeleteMoviePage from "@/pages/admin/movies/edit-delete-movie.page";
 import AddPhotoPage from "@/pages/admin/photos/add-photo.page";
 import DeletePhotoPage from "@/pages/admin/photos/delete-photo.page";
 import AddRoomPage from "@/pages/admin/rooms/add-room.page";
@@ -63,8 +62,8 @@ export const router = createBrowserRouter(
         <Route path="movies">
           <Route index element={<Navigate to="add-movie" />} />
           <Route path="add-movie" element={<AddMoviePage />} />
-          <Route path="edit-movie" element={<EditMoviePage />} />
-          <Route path="delete-movie" element={<DeleteMoviePage />} />
+          <Route path="edit-delete-movie" element={<EditDeleteMoviePage />} />
+          {/* <Route path="delete-movie" element={<DeleteMoviePage />} /> */}
         </Route>
 
         <Route path="sessions">
