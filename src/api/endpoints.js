@@ -16,5 +16,6 @@ export const API = {
     "movie-star": "/movie/start",
     "add-movie": "/admin/addMovie",
     "delete-movie": "/admin/deleteMovie",
-    "update-movie": "/admin/updateMovie"
+    "update-movie": "/admin/updateMovie",
+    "star-movie": "/movie/star"
 }

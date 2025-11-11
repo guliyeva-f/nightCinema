@@ -86,12 +86,12 @@ export function NavUser({
                 <CreditCard />
                 Billing
               </DropdownMenuItem> */}
-              <DropdownMenuItem>
+              {/* <DropdownMenuItem>
                 <Bell />
                 Notifications
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator /> */}
             <DropdownMenuItem>
               <LogOut />
               Log out

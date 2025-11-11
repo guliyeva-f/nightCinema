@@ -47,7 +47,6 @@ export function RegisterForm({ className, ...props }) {
 
    try {
       toast.loading(t("Registering..."), { id: "register" });
-
       const response = await AuthService.register({
         username: name,
         email,
@@ -55,7 +54,6 @@ export function RegisterForm({ className, ...props }) {
         phoneNumber: phone,
       });
 
-      console.log("Register response:", response);
       toast.dismiss("register"); 
 
       if (response.success) {

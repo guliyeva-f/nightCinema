@@ -4,7 +4,6 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { EditableTagsInput } from "./tagInput";
-import DatePickerWithIconDemo from "./shadcn-studio/date-picker/date-picker-03";
 import SwitchPermanentIndicatorDemo from "./shadcn-studio/switch/switch-13";
 import TimePickerWithIconDemo from "./shadcn-studio/date-picker/date-picker-09";
 import { Controller, useForm } from "react-hook-form";
@@ -16,9 +15,9 @@ import { API } from "@/api/endpoints";
 import { MultiSelect, MultiSelectContent, MultiSelectGroup, MultiSelectItem, MultiSelectTrigger, MultiSelectValue } from "./ui/multi-select";
 import { GENRES } from "@/const/genres";
 import toast from "react-hot-toast";
+import { Calendar22 } from "./shadcn-studio/date-picker/date-picker";
 
 export default function EditMovieForm({ movieData, onSuccess }) {
-    const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const {
@@ -68,12 +67,11 @@ export default function EditMovieForm({ movieData, onSuccess }) {
             movieDuration: data.movieDuration,
             actors: data.actors,
             starMovie: data.starMovie,
-            genre: data.genres.map((g) => g.toUpperCase()), // 👈 yalnız genre göndəririk
+            genre: data.genres.map((g) => g.toUpperCase()),
         };
 
         try {
             setIsSubmitting(true);
-
             const res = await $axios.put(
                 $api(`${API["update-movie"]}?movieId=${movieData.id}`),
                 payload
@@ -179,15 +177,14 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                             >
                                                 Genres
                                             </Label>
-
                                             <MultiSelect
                                                 values={field.value ?? []}
                                                 onValuesChange={(val) => field.onChange(val)}
                                             >
                                                 <MultiSelectTrigger className="w-full mt-2">
-                                                    <MultiSelectValue placeholder="Select genres..." />
+                                                    <MultiSelectValue placeholder="Select genres.." />
                                                 </MultiSelectTrigger>
-                                                <MultiSelectContent search={{ placeholder: "Search genre..." }}>
+                                                <MultiSelectContent search={{ placeholder: "Search genre.." }}>
                                                     <MultiSelectGroup>
                                                         {Object.entries(GENRES).map(([key, label]) => (
                                                             <MultiSelectItem key={key} value={key.toLowerCase()}>
@@ -229,7 +226,7 @@ export default function EditMovieForm({ movieData, onSuccess }) {
 
                                             <div className="mt-2">
                                                 <EditableTagsInput
-                                                    placeholder="Add actor..."
+                                                    placeholder="Add actor.."
                                                     value={field.value}
                                                     onChange={field.onChange}
                                                 />
@@ -298,29 +295,28 @@ export default function EditMovieForm({ movieData, onSuccess }) {
 
                                         {/* filmin cixma tarixi */}
                                         <div className="col-span-2">
-                                            <Label
-                                                htmlFor="releaseDate"
-                                                className="text-sm font-medium text-foreground dark:text-foreground">
-                                                Date
-                                            </Label>
-                                            <Controller
-                                                control={control}
-                                                name="releaseDate"
-                                                id="releaseDate"
-                                                rules={{ required: "Release date is required" }}
-                                                render={({ field, fieldState }) => (
-                                                    <>
-                                                        <DatePickerWithIconDemo
-                                                            value={field.value}
-                                                            onChange={field.onChange}
-                                                        />
-                                                        {fieldState.error && (
-                                                            <p className="text-red-400 ml-2 text-[12px]">{fieldState.error.message}</p>
-                                                        )}
-                                                    </>
-                                                )}
-                                            />
-                                        </div>
+                                                              <Label
+                                                                htmlFor="releaseDate"
+                                                                className="text-sm font-medium text-foreground dark:text-foreground">
+                                                                Date
+                                                              </Label>
+                                                              <Controller
+                                                                control={control}
+                                                                name="releaseDate"
+                                                                id="releaseDate"
+                                                                rules={{ required: "Release date is required" }}
+                                                                render={({ field, fieldState }) => (
+                                                                  <>
+                                                                    <Calendar22 value={field.value} onChange={field.onChange} />
+                                                                    {fieldState.error && (
+                                                                      <p className="text-red-400 ml-2 text-[12px]">
+                                                                        {fieldState.error.message}
+                                                                      </p>
+                                                                    )}
+                                                                  </>
+                                                                )}
+                                                              />
+                                                            </div>
 
                                         {/* filmin muddeti */}
                                         <div className="col-span-2">
@@ -405,7 +401,7 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                 <Separator className="my-5" />
                 <div className="flex items-center justify-end space-x-4">
                     <Button type="submit" disabled={isSubmitting}>
-                        {isSubmitting ? "Editing..." : "Edit Movie"}
+                        {isSubmitting ? "Editing.." : "Edit Movie"}
                     </Button>
                 </div>
             </form >

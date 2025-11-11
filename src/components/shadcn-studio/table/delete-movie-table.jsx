@@ -34,7 +34,6 @@ const EditAndDeleteMovieTable = () => {
 
         try {
             const res = await $axios.get($api(API["all-movie"]));
-            console.log(res);
 
             const mappedMovies = res?.data.data.map((movie) => ({
                 id: movie.id,
@@ -206,7 +205,6 @@ const EditAndDeleteMovieTable = () => {
                                                                 </svg></>
                                                         )}
                                                     </button>
-
                                                 </AlertDialogTrigger>
                                                 <AlertDialogContent>
                                                     <AlertDialogHeader>
@@ -237,16 +235,25 @@ const EditAndDeleteMovieTable = () => {
                     </TableBody>
                 </Table>
             </div>
-            <Dialog open={open} onOpenChange={setOpen}>
+            <Dialog open={open} onOpenChange={(state) => {
+                setOpen(state);
+                if (window.lenis) {
+                    if (state) {
+                        window.lenis.stop();
+                    } else {
+                        window.lenis.start();
+                    }
+                }
+            }}>
                 <DialogContent className="mb-8 flex lg:min-w-5xl flex-col justify-between gap-0 p-0">
-                    <ScrollArea className="flex flex-col justify-between overflow-hidden">
-                        <DialogHeader className="contents text-center">
-                            <DialogTitle className="p-[20px_10px_5px]">Edit Movie Form</DialogTitle>
-                            <DialogDescription>Edit the selected movie information below</DialogDescription>
-                        </DialogHeader>
-                        {selectedMovie && (
-                            <EditMovieForm
-                                movieData={selectedMovie}
+                    <DialogHeader className="contents text-center">
+                        <DialogTitle className="p-[20px_10px_5px]">Edit Movie Form</DialogTitle>
+                        <DialogDescription>Edit the selected movie information below</DialogDescription>
+                    </DialogHeader><ScrollArea
+                        data-lenis-prevent
+                        className="flex-1 overflow-y-auto max-h-[90vh]"
+                    > {selectedMovie && (
+                            <EditMovieForm movieData={selectedMovie}
                                 onSuccess={() => {
                                     fetchMovies();
                                     setOpen(false);

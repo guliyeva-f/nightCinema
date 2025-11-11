@@ -19,7 +19,6 @@ const DeleteUserTable = () => {
     try {
       setLoading(true);
       const res = await $axios.get($api(API['all-users']));
-      console.log(res);
 
       if (res.data?.data) {
         const mappedUsers = res.data.data.map((user) => ({
@@ -33,7 +32,6 @@ const DeleteUserTable = () => {
         }));
 
         setUsers(mappedUsers);
-        console.log(mappedUsers);
       } else {
         toast.error("Failed to fetch users");
       }
@@ -51,7 +49,6 @@ const DeleteUserTable = () => {
     try {
       setDeletingId(id);
       const res = await $axios.delete($api(`${API['delete-user']}/${id}`));
-      console.log(res);
       
       if (res.data?.success) {
         toast.success("User deleted successfully");

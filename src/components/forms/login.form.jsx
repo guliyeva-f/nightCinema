@@ -35,10 +35,8 @@ export function LoginForm({ className, ...props }) {
     }
 
     try {
-      toast.loading(t("Logging in..."), { id: "login" });
-
+      toast.loading(t("Logging in.."), { id: "login" });
       const response = await AuthService.login({ emailOrUsername, password });
-      console.log("Login response:", response);
       toast.dismiss("login");
 
       if (response.success) {

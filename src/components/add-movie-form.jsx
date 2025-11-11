@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { EditableTagsInput } from "./tagInput";
-import DatePickerWithIconDemo from "./shadcn-studio/date-picker/date-picker-03";
 import SwitchPermanentIndicatorDemo from "./shadcn-studio/switch/switch-13";
 import TimePickerWithIconDemo from "./shadcn-studio/date-picker/date-picker-09";
 import { Controller, useForm } from "react-hook-form";
@@ -16,6 +15,7 @@ import { $api } from "@/api/api";
 import { API } from "@/api/endpoints";
 import { MultiSelect, MultiSelectContent, MultiSelectGroup, MultiSelectItem, MultiSelectTrigger, MultiSelectValue } from "./ui/multi-select";
 import { GENRES } from "@/const/genres";
+import { Calendar22 } from "./shadcn-studio/date-picker/date-picker";
 
 export default function AddMovieForm() {
   const navigate = useNavigate();
@@ -62,24 +62,21 @@ export default function AddMovieForm() {
       genre: data.genre.map(g => g.toUpperCase()),
       trailerUrl: data.trailerUrl.trim(),
       backgroundImgUrl: data.backgroundImgUrl.trim(),
-    }; 
+    };
     try {
       setIsSubmitting(true);
       const res = await $axios.post($api(API['add-movie']), payload);
-      console.log(res);
 
       if (res.data?.success) {
         alert("Movie added successfully!");
-        // navigate("/admin/movies");
+        navigate("/admin/movies/edit-delete-movie");
       } else {
         alert(res.data?.message || "Failed to add movie");
       }
-    } 
+    }
     catch (err) {
       console.error("Add movie error:", err);
-      const msg = err?.response?.data?.message || err.message || "Unexpected error";
-      alert("Error: " + msg);
-    } 
+    }
     finally {
       setIsSubmitting(false);
     }
@@ -98,13 +95,11 @@ export default function AddMovieForm() {
 
               {/* filmin adi */}
               <div className="col-span-full lg:col-span-3">
-                <Label
-                  htmlFor="name"
+                <Label htmlFor="name"
                   className="text-sm font-medium text-foreground dark:text-foreground">
                   Movie Name
                 </Label>
-                <Input
-                  id="name"
+                <Input id="name"
                   {...register("name", { required: "Name is required" })}
                   type="text"
                   name="name"
@@ -118,13 +113,11 @@ export default function AddMovieForm() {
 
               {/* filmin rejissoru */}
               <div className="col-span-full lg:col-span-3">
-                <Label
-                  htmlFor="director"
+                <Label htmlFor="director"
                   className="text-sm font-medium text-foreground dark:text-foreground">
                   Director
                 </Label>
-                <Input
-                  id="director"
+                <Input id="director"
                   {...register("director", { required: "Director is required" })}
                   type="text"
                   name="director"
@@ -136,7 +129,7 @@ export default function AddMovieForm() {
                 )}
               </div>
 
-              {/* filmin haqinda */}
+              {/* filmin haqqinda */}
               <div className="col-span-full">
                 <Label
                   htmlFor="description" className="text-sm font-medium text-foreground dark:text-foreground">
@@ -170,13 +163,11 @@ export default function AddMovieForm() {
                         className="text-sm font-medium text-foreground dark:text-foreground">
                         Genre
                       </Label>
-                      <MultiSelect values={field.value}
-                        onValuesChange={field.onChange}
-                      >
+                      <MultiSelect values={field.value} onValuesChange={field.onChange}>
                         <MultiSelectTrigger className="w-full mt-2">
-                          <MultiSelectValue placeholder="Select genres..." />
+                          <MultiSelectValue placeholder="Select genres.." />
                         </MultiSelectTrigger>
-                        <MultiSelectContent search={{ placeholder: "Search genre..." }}>
+                        <MultiSelectContent search={{ placeholder: "Search genre.." }}>
                           <MultiSelectGroup>
                             {Object.entries(GENRES).map(([key, label]) => (
                               <MultiSelectItem key={key} value={key.toLowerCase()}>
@@ -186,7 +177,6 @@ export default function AddMovieForm() {
                           </MultiSelectGroup>
                         </MultiSelectContent>
                       </MultiSelect>
-
                       {fieldState.error && (
                         <p className="text-red-400 ml-2 text-[12px]">
                           {fieldState.error.message}
@@ -210,18 +200,15 @@ export default function AddMovieForm() {
                       <Label
                         htmlFor="actors"
                         className="text-sm font-medium text-foreground dark:text-foreground"
-                      >
-                        Actors
+                      >Actors
                       </Label>
-
                       <div className="mt-2">
                         <EditableTagsInput
-                          placeholder="Add actor..."
+                          placeholder="Add actor.."
                           value={field.value}
                           onChange={field.onChange}
                         />
                       </div>
-
                       {fieldState.error && (
                         <p className="text-red-400 ml-2 text-[12px]">
                           {fieldState.error.message}
@@ -296,12 +283,11 @@ export default function AddMovieForm() {
                         rules={{ required: "Release date is required" }}
                         render={({ field, fieldState }) => (
                           <>
-                            <DatePickerWithIconDemo
-                              value={field.value}
-                              onChange={field.onChange}
-                            />
+                            <Calendar22 value={field.value} onChange={field.onChange} />
                             {fieldState.error && (
-                              <p className="text-red-400 ml-2 text-[12px]">{fieldState.error.message}</p>
+                              <p className="text-red-400 ml-2 text-[12px]">
+                                {fieldState.error.message}
+                              </p>
                             )}
                           </>
                         )}
@@ -391,7 +377,7 @@ export default function AddMovieForm() {
         <Separator className="my-5" />
         <div className="flex items-center justify-end space-x-4">
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Adding..." : "Add Movie"}
+            {isSubmitting ? "Adding.." : "Add Movie"}
           </Button>
         </div>
       </form >

@@ -29,9 +29,9 @@ import { ScrollArea } from "./ui/scroll-area"
 
 export const data = {
   user: {
-    name: "Fatima",
-    email: "guliyeffa2l@gmail.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "Admin",
+    email: "admin@mail.ru",
+    avatar: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png",
   },
   teams: [
     {
