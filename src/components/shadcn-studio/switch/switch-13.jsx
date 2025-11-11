@@ -1,5 +1,4 @@
 'use client'
-
 import { CheckIcon, XIcon } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 

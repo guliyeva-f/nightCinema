@@ -59,9 +59,7 @@ function ProfHead({ user }) {
                         Log out
                     </button>
                 </div>
-
                 <span className="border-b border-white w-1/3 pt-2 mb-2 md:hidden"></span>
-
                 <div className="md:hidden">
                     <ThemeProvider theme={theme}>
                         <IconLabelTabs />

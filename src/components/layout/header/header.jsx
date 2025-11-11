@@ -6,7 +6,6 @@ import { Squash as Hamburger } from "hamburger-react";
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
-
   const location = useLocation();
   const navigate = useNavigate();
 

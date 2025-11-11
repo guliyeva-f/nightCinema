@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { EditableTagsInput } from "./tagInput";
 import SwitchPermanentIndicatorDemo from "./shadcn-studio/switch/switch-13";
-import TimePickerWithIconDemo from "./shadcn-studio/date-picker/date-picker-09";
+import TimePickerWithIconDemo from "./shadcn-studio/date-picker/time-picker";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";

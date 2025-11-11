@@ -28,12 +28,11 @@ function CustomSwiper() {
     const fetchStarMovies = async () => {
       try {
         const res = await $axios.get($api(API["star-movie"]));
-
         if (res.data.success && Array.isArray(res.data.data)) {
           setMovies(res.data.data);
         }
       } catch (err) {
-        console.error("Star movie-lər alınmadı:", err);
+        console.error(err);
       }
     };
 

@@ -2,14 +2,9 @@ import axios from 'axios';
 import { AuthService } from '@/services/auth/auth.service';
 import { generateUniqueKey } from '@/utils/generate-unit-key';
 
-// const baseURL = `/api`;
-// const baseURL = import.meta.env.VITE_APP_URL + '/api';
-
 const baseURL = import.meta.env.DEV
   ? 'http://localhost:5000/api'
   : import.meta.env.VITE_APP_URL + '/api';
-
-// const baseURL = import.meta.env.DEV ? '/api' : import.meta.env.VITE_APP_URL + '/api';
 
 export const $axios = axios.create({
   baseURL,
@@ -81,7 +76,7 @@ $axios.interceptors.response.use(
         processQueue(refreshError, null);
         AuthService.logout();
         return Promise.reject(refreshError);
-      } 
+      }
       finally {
         isRefreshing = false;
       }
