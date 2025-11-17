@@ -188,7 +188,7 @@ export function AppSidebar({
   ...props
 }) {
   return (
-    <ScrollArea>
+    <ScrollArea data-lenis-prevent>
       <Sidebar collapsible="icon" {...props}>
         <SidebarHeader>
           <TeamSwitcher teams={data.teams} />

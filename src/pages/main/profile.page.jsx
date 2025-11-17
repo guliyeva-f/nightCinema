@@ -5,6 +5,7 @@ import { AuthService } from '@/services/auth/auth.service';
 import { $axios } from '@/api/accessor';
 import { $api } from '@/api/api';
 import { API } from '@/api/endpoints';
+import toast from 'react-hot-toast';
 
 function ProfilePage() {
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,8 @@ function ProfilePage() {
       const token = localStorage.getItem('accessToken');
 
       if (!token) {
-        navigate('/auth/login');
+        toast.error("Əvvəlcə hesaba daxil olun");
+        navigate('/auth/login', { replace: true });
         return;
       }
 
@@ -26,17 +28,15 @@ function ProfilePage() {
         if (response.data.success) {
           AuthService.userData = response.data.data;
           setUser(response.data.data);
-        }
-        else {
-          navigate('/auth/login');
+          setLoading(false);
+        } else {
+          toast.error("Yenidən daxil olun");
+          navigate('/auth/login', { replace: true });
         }
       }
       catch (error) {
-        console.error('Auth check error:', error);
-        navigate('/auth/login');
-      }
-      finally {
-        setLoading(false);
+        toast.error("Serverdə problem baş verdi. Yenidən daxil olun.");
+        navigate('/auth/login', { replace: true });
       }
     };
 
@@ -61,4 +61,4 @@ function ProfilePage() {
   )
 }
 
-export default ProfilePage
+export default ProfilePage;

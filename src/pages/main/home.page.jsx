@@ -1,10 +1,26 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import CustomSwiper from "@/components/ui/swiper/customSwiper";
-import { useTranslation } from "react-i18next";
+import { MovieCard } from "@/components/layout/main/flip-card";
+import $axios from "@/api/accessor";
+import { $api } from "@/api/api";
+import { API } from "@/api/endpoints";
 
 function HomePage() {
-  const { t } = useTranslation();
   const moviesRef = useRef(null);
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const res = await $axios.get($api(API["all-movie"]));
+        setMovies(res.data.data || []);
+      } catch (err) {
+        console.log("Fetch movie error:", err);
+      }
+    };
+
+    fetchMovies();
+  }, []);
 
   useEffect(() => {
     const tryRegisterScroll = () => {
@@ -24,11 +40,10 @@ function HomePage() {
       <section className="h-screen">
         <CustomSwiper />
       </section>
-      <section
-        id="movies-section"
-        ref={moviesRef}
-        className="h-screen flex items-center text-2xl justify-center bg-[#AA0000] bg-[radial-gradient(circle,rgba(170,0,0,1)_0%,rgba(31,28,24,1)_60%,rgba(0,0,0,1)_100%)]"
-      >{t("Movies")}
+
+      <section id="movies-section" ref={moviesRef}
+        className="bg-[#AA0000] py-20 bg-[radial-gradient(circle,rgba(170,0,0,1)_0%,rgba(31,28,24,1)_60%,rgba(0,0,0,1)_100%)]">
+        <MovieCard movies={movies} />
       </section>
     </main>
   );

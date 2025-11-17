@@ -37,5 +37,6 @@
   "Registration failed!": "Регистрация не удалась!",
   "Logging in...": "Вход...",
   "Email or Username": "Электронная почта или имя пользователя",
-  "Enter your email or username": "Введите электронную почту или имя пользователя"
+  "Enter your email or username": "Введите электронную почту или имя пользователя",
+  "Dashboard": "Панель"
 }

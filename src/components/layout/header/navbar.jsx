@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthService } from "@/services/auth/auth.service";
 
-export function NavigationMenuDemo({ isOpen, onClose }) {
+export function NavigationMenuDemo({ isOpen, onClose, isScrolled }) {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,15 +33,18 @@ export function NavigationMenuDemo({ isOpen, onClose }) {
   return (
     <div style={{ fontFamily: 'Outfit, sans-serif' }}
       className={`flex flex-col lg:flex-row gap-6 items-center py-10
-        font-medium text-white px-4 lg:px-6 lg:py-3 backdrop-blur bg-black/50 lg:bg-black/10 lg:h-[55px] h-screen
-        border border-gray-300/20 lg:border-0 duration-300
+        font-medium text-white px-4 lg:px-6 lg:py-3 lg:h-[55px] h-screen
+        border border-gray-300/20 lg:border-0 duration-100
         max-lg:fixed max-lg:top-[81px] max-lg:left-0
         max-lg:w-full max-lg:rounded-br-3xl max-lg:rounded-tr-3xl max-lg:transition-all transition-opacity
         ${isOpen ? "opacity-100" : "opacity-0"} ${isOpen
           ? "max-sm:w-full sm:w-1/2 md:w-1/3 lg:w-auto"
           : "max-sm:w-0 sm:w-0 lg:w-auto"
         }
-        lg:opacity-100 lg:static lg:w-auto lg:rounded-full`}
+        lg:opacity-100 lg:static lg:w-auto lg:rounded-full
+        ${isScrolled
+          ? "bg-transparent backdrop-blur-none"
+          : "backdrop-blur-md bg-black/40 lg:bg-black/10"}`}
     >
       <Link
         to="/"
@@ -59,10 +62,10 @@ export function NavigationMenuDemo({ isOpen, onClose }) {
       </Link>
       <Link
         className="lg:text-[18px] text-[20px]"
-        to="/contact"
+        to="/admin"
         onClick={handleLinkClick}
       >
-        {t("Contact")}
+        {t("Dashboard")}
       </Link>
       <Link
         className="lg:text-[18px] text-[20px]"

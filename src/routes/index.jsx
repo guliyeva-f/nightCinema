@@ -22,6 +22,7 @@ import LoginPage from "@/pages/auth/login.page";
 import RegisterPage from "@/pages/auth/register.page";
 import ContactPage from "@/pages/main/contact.page";
 import HomePage from "@/pages/main/home.page";
+import MovieDetailPage from "@/pages/main/movie-detail.page";
 import ProfilePage from "@/pages/main/profile.page";
 import PrAccount from "@/pages/main/profPages/prAccount";
 import PrRewards from "@/pages/main/profPages/prRewards";
@@ -45,6 +46,8 @@ export const router = createBrowserRouter(
           <Route path="settingsAccount" element={<PrAccount />} />
           <Route path="badgeRewards" element={<PrRewards />} />
         </Route>
+
+        <Route path="movie/:id" element={<MovieDetailPage />} />
       </Route>
 
       <Route path="admin" element={<AdminLayout />}>
