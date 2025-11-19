@@ -1,3 +1,4 @@
+import ProtectedAdminRoute from "@/components/ProtectedAdminRoute";
 import AdminLayout from "@/layouts/admin.layout";
 import AuthLayout from "@/layouts/auth.layout";
 import GlobalLayout from "@/layouts/global.layout";
@@ -41,7 +42,7 @@ export const router = createBrowserRouter(
         <Route path="theaters" element={<TheatersPage />} />
 
         <Route path="profile" element={<ProfilePage />} >
-          <Route index element={<Navigate to="moviesTickets" />} />
+          <Route index element={<Navigate to="settingsAccount" />} />
           <Route path="moviesTickets" element={<PrTickets />} />
           <Route path="settingsAccount" element={<PrAccount />} />
           <Route path="badgeRewards" element={<PrRewards />} />
@@ -50,7 +51,10 @@ export const router = createBrowserRouter(
         <Route path="movie/:id" element={<MovieDetailPage />} />
       </Route>
 
-      <Route path="admin" element={<AdminLayout />}>
+      <Route path="admin" element={
+        <ProtectedAdminRoute>
+          <AdminLayout />
+        </ProtectedAdminRoute>}>
 
         <Route index element={<Navigate to="dashboard" />} />
         <Route path="dashboard" element={<DashboardPage />} />

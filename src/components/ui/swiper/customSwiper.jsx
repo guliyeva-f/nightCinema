@@ -28,11 +28,9 @@ function CustomSwiper() {
     const fetchStarMovies = async () => {
       try {
         const res = await $axios.get($api(API["star-movie"]));
-        if (res.data.success && Array.isArray(res.data.data)) {
-          setMovies(res.data.data);
-        }
+        if (res.data.success) setMovies(res.data.data);
       } catch (err) {
-        console.error(err);
+        console.error("Fetch star movies error:", err.response?.data || err.message);
       }
     };
 
@@ -40,18 +38,18 @@ function CustomSwiper() {
   }, []);
 
   useEffect(() => {
-  if (
-    swiperRef.current &&
-    prevRef.current &&
-    nextRef.current
-  ) {
-    swiperRef.current.params.navigation.prevEl = prevRef.current;
-    swiperRef.current.params.navigation.nextEl = nextRef.current;
-    swiperRef.current.navigation.destroy();
-    swiperRef.current.navigation.init();
-    swiperRef.current.navigation.update();
-  }
-}, [movies]);
+    if (
+      swiperRef.current &&
+      prevRef.current &&
+      nextRef.current
+    ) {
+      swiperRef.current.params.navigation.prevEl = prevRef.current;
+      swiperRef.current.params.navigation.nextEl = nextRef.current;
+      swiperRef.current.navigation.destroy();
+      swiperRef.current.navigation.init();
+      swiperRef.current.navigation.update();
+    }
+  }, [movies]);
 
   return (
     <div className="custom-swiper relative">
@@ -102,9 +100,9 @@ function CustomSwiper() {
                 <div className="text-[16px] sm:text-[16px] flex flex-col gap-5 md:text-[20px] lg:text-[24px]" style={{ fontFamily: 'Outfit, sans-serif' }}>
                   <div className='flex-col md:flex-row flex gap-2 md:gap-5'>
                     <span>{movie.genreString
-                        ?.split(',')
-                        .map(g => g.charAt(0) + g.slice(1).toLowerCase())
-                        .join(' | ')}
+                      ?.split(',')
+                      .map(g => g.charAt(0) + g.slice(1).toLowerCase())
+                      .join(' | ')}
                     </span>
                     <div className='flex gap-6'>
                       <span className='flex items-center gap-2'><CalendarRange size="20" />{movie.releaseDate}</span>

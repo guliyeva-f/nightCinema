@@ -35,18 +35,26 @@ function Header() {
         document.body.scrollTop ||
         0;
 
-      if (scrollTop > window.innerHeight * 0.9
-      ) {
-        setIsScrolled(true);
+      if (location.pathname === "/") {
+        if (scrollTop > window.innerHeight * 0.9) {
+          setIsScrolled(true);
+        } else {
+          setIsScrolled(false);
+        }
       } else {
-        setIsScrolled(false);
+        if (scrollTop > 20) {
+          setIsScrolled(true);
+        } else {
+          setIsScrolled(false);
+        }
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
+
 
   return (
     <header

@@ -33,11 +33,11 @@ function ProfHead({ user }) {
 
     return (
         <>
-            <div className='container mx-auto p-2.5 md:p-[10px_20px] bg-black/30 flex flex-col justify-between items-center rounded-[50px_50px_0px_0px] border-2 border-white'
+            <div className='container w-[99%] mx-auto p-2.5 md:p-[10px_20px] bg-black/30 flex flex-col justify-between items-center rounded-[50px_50px_0px_0px] border-2 border-white'
                 style={{ borderStyle: "inset", fontFamily: 'Outfit, sans-serif' }}>
                 <div className="flex items-center justify-between w-full">
                     <div className='flex justify-center gap-3 items-center'>
-                        <div className='w-[60px] h-[60px] md:w-20 md:h-20'>
+                        <div className='w-16 h-16 md:w-24 md:h-24'>
                             <img className='rounded-full border-2 border-white'
                                 src={user?.profilePhotoUrl} alt="profilePic"
                             />
