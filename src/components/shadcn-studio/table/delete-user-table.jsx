@@ -25,7 +25,7 @@ const DeleteUserTable = () => {
           id: user.id,
           username: user.realUsername || "—",
           email: user.email || "—",
-          phoneNumber: user.phoneNumber || "—",
+          phoneNumber: user.phoneE164 || "—",
           role: user.role || "USER",
           createdAt: new Date(user.createdAt).toLocaleDateString(),
           profilePhotoUrl: user.profilePhotoUrl?.startsWith('http') ? user.profilePhotoUrl : "",

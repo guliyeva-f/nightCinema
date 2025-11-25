@@ -38,10 +38,10 @@ function ProfHead({ user }) {
                 <div className="flex items-center justify-between w-full">
                     <div className='flex justify-center gap-3 items-center'>
                         <div className='w-16 h-16 md:w-24 md:h-24'>
-                            <img className='rounded-full border-2 border-white'
+                            <img className='rounded-full border-2 border-white object-cover w-full h-full'
                                 src={user?.profilePhotoUrl} alt="profilePic"
                             />
-                        </div>
+                        </div>  
                         <h2 className="text-[18px] md:text-[1.5rem] font-bold">
                             {user && `Hi, ${capitalize(user.username)}`}
                         </h2>
