@@ -7,7 +7,6 @@ import { EditableTagsInput } from "./tagInput";
 import SwitchPermanentIndicatorDemo from "./shadcn-studio/switch/switch-13";
 import TimePickerWithIconDemo from "./shadcn-studio/date-picker/time-picker";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import $axios from "@/api/accessor";
 import { $api } from "@/api/api";
@@ -20,14 +19,7 @@ import { Calendar22 } from "./shadcn-studio/date-picker/date-picker";
 export default function EditMovieForm({ movieData, onSuccess }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const {
-        register,
-        handleSubmit,
-        control,
-        formState: { errors },
-        watch,
-        reset
-    } = useForm({
+    const { register, handleSubmit, control, formState: { errors }, watch, reset } = useForm({
         defaultValues: movieData || {},
     });
 
@@ -36,8 +28,7 @@ export default function EditMovieForm({ movieData, onSuccess }) {
             const formatted = {
                 ...movieData,
                 genres: Array.isArray(movieData.genre)
-                    ? movieData.genre.map((g) => g.toLowerCase())
-                    : [],
+                    ? movieData.genre.map((g) => g.toLowerCase()) : [],
                 actors: movieData.actors || [],
             };
             reset(formatted);
@@ -101,7 +92,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                 <div className="grid grid-cols-1 gap-10 lg:w-[95%]">
                     <div className="lg:col-span-2">
                         <div className="grid grid-cols-1 gap-4 lg:grid-cols-6">
-
                             {/* filmin adi */}
                             <div className="col-span-full lg:col-span-3">
                                 <Label
@@ -121,7 +111,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                     <p className="text-red-400 ml-2 text-[12px]">{errors.name.message}</p>
                                 )}
                             </div>
-
                             {/* filmin rejissoru */}
                             <div className="col-span-full lg:col-span-3">
                                 <Label
@@ -141,7 +130,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                     <p className="text-red-400 ml-2 text-[12px]">{errors.director.message}</p>
                                 )}
                             </div>
-
                             {/* filmin haqinda */}
                             <div className="col-span-full">
                                 <Label
@@ -160,7 +148,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                     <p className="text-red-400 ml-2 text-[12px]">{errors.description.message}</p>
                                 )}
                             </div>
-
                             {/* filmin janri */}
                             <div className="col-span-full lg:col-span-3">
                                 <Controller
@@ -203,9 +190,7 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                         </>
                                     )}
                                 />
-
                             </div>
-
                             {/* filmin oyunculari */}
                             <div className="col-span-full lg:col-span-3">
                                 <Controller
@@ -231,7 +216,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                                     onChange={field.onChange}
                                                 />
                                             </div>
-
                                             {fieldState.error && (
                                                 <p className="text-red-400 ml-2 text-[12px]">
                                                     {fieldState.error.message}
@@ -241,7 +225,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                     )}
                                 />
                             </div>
-
                             {/* filmin sekli */}
                             <div className="col-span-full lg:col-span-3">
                                 <Label
@@ -259,14 +242,12 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                     })}
                                     placeholder="https://example.com/photo.jpg"
                                     className="mt-2"
-                                />
-                                {errors.coverPhotoUrl && (
+                                />{errors.coverPhotoUrl && (
                                     <p className="text-red-400 ml-2 text-[12px]">
                                         {errors.coverPhotoUrl.message}
                                     </p>
                                 )}
                             </div>
-
                             {/* filmin treyleri */}
                             <div className="col-span-full lg:col-span-3">
                                 <Label
@@ -288,36 +269,34 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                     <p className="text-red-400 ml-2 text-[12px]">{errors.trailerUrl.message}</p>
                                 )}
                             </div>
-
                             <div className="col-span-full">
                                 <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
                                     <div className="col-span-full lg:col-span-4 grid grid-cols-4 gap-2 lg:mb-0 mb-4">
 
                                         {/* filmin cixma tarixi */}
                                         <div className="col-span-2">
-                                                              <Label
-                                                                htmlFor="releaseDate"
-                                                                className="text-sm font-medium text-foreground dark:text-foreground">
-                                                                Date
-                                                              </Label>
-                                                              <Controller
-                                                                control={control}
-                                                                name="releaseDate"
-                                                                id="releaseDate"
-                                                                rules={{ required: "Release date is required" }}
-                                                                render={({ field, fieldState }) => (
-                                                                  <>
-                                                                    <Calendar22 value={field.value} onChange={field.onChange} />
-                                                                    {fieldState.error && (
-                                                                      <p className="text-red-400 ml-2 text-[12px]">
-                                                                        {fieldState.error.message}
-                                                                      </p>
-                                                                    )}
-                                                                  </>
-                                                                )}
-                                                              />
-                                                            </div>
-
+                                            <Label
+                                                htmlFor="releaseDate"
+                                                className="text-sm font-medium text-foreground dark:text-foreground">
+                                                Date
+                                            </Label>
+                                            <Controller
+                                                control={control}
+                                                name="releaseDate"
+                                                id="releaseDate"
+                                                rules={{ required: "Release date is required" }}
+                                                render={({ field, fieldState }) => (
+                                                    <>
+                                                        <Calendar22 value={field.value} onChange={field.onChange} />
+                                                        {fieldState.error && (
+                                                            <p className="text-red-400 ml-2 text-[12px]">
+                                                                {fieldState.error.message}
+                                                            </p>
+                                                        )}
+                                                    </>
+                                                )}
+                                            />
+                                        </div>
                                         {/* filmin muddeti */}
                                         <div className="col-span-2">
                                             <Label
@@ -344,7 +323,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                         </div>
                                     </div>
                                     <div className="col-span-full lg:col-span-8 grid grid-cols-8 gap-2">
-
                                         {/* star moviedirmi */}
                                         <div className="flex flex-col items-center col-span-2">
                                             <Label
@@ -365,7 +343,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                                 )}
                                             />
                                         </div>
-
                                         {/* star movie shekli */}
                                         <div className="col-span-6">
                                             <Label

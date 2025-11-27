@@ -1,4 +1,3 @@
-"use client";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -25,7 +24,6 @@ export default function FlipCard({ movie, className = "" }) {
                         )}
                     </div>
                 </div>
-
                 <div className="absolute p-[30px_20px] pointer-events-auto inset-0 flex gap-2 flex-col items-center justify-between bg-linear-to-br from-[#150020] via-[#170034] to-[#40006a] text-white rounded-2xl text-center shadow-[0_0_25px_rgba(255,255,255,0.2)] transform-[rotateY(180deg)] backface-hidden">
                     <div className="flex flex-col gap-2.5">
                         <h3 className="text-2xl font-bold tracking-wide">
@@ -46,7 +44,6 @@ export default function FlipCard({ movie, className = "" }) {
         </div>
     );
 }
-
 export function MovieCard({ movies = [] }) {
     return (
         <div className="bg-transparent container m-auto flex flex-wrap justify-center gap-6 px-10 sm:px-5 md:px-4 lg:px-2">

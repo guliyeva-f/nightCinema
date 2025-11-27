@@ -1,23 +1,8 @@
 import { AppSidebar } from "@/components/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator, } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
-import {
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+import { SidebarInset, SidebarProvider, SidebarTrigger, } from "@/components/ui/sidebar"
 import { Outlet } from "react-router-dom"
-
 import { useLocation } from "react-router-dom";
 import { data } from "@/components/app-sidebar";
 
@@ -36,7 +21,6 @@ function getBreadcrumb(locationPath) {
 }
 
 export default function AdminLayout() {
-
   const location = useLocation();
   const breadcrumb = getBreadcrumb(location.pathname);
 
@@ -73,7 +57,7 @@ export default function AdminLayout() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-        </header> 
+        </header>
         <Outlet />
       </SidebarInset>
     </SidebarProvider>

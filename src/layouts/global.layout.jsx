@@ -4,7 +4,6 @@ import { Outlet } from "react-router-dom";
 
 function GlobalLayout() {
   const lenis = useRef(null);
-
   useEffect(() => {
     lenis.current = new Lenis({
       duration: 2.2,
@@ -14,14 +13,12 @@ function GlobalLayout() {
     });
 
     window.lenis = lenis.current;
-
     function raf(time) {
       lenis.current.raf(time);
       requestAnimationFrame(raf);
     }
 
     requestAnimationFrame(raf);
-
     return () => {
       lenis.current.destroy();
       window.lenis = null;

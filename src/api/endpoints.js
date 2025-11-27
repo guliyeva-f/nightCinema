@@ -10,6 +10,7 @@ export const API = {
     "user-movie": "/user/movie",
     "user-info": "/user/info",
     "all-users": "/admin/getUsers",
+    "all-admins": "/admin/getAdmins",
     "delete-user": "/admin/deleteUser",
     "user-check": "/user/check",
     "update-infos": "/user/updateInfos",

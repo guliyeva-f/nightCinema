@@ -4,12 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { AuthService } from "@/services/auth/auth.service";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldDescription, FieldGroup, FieldLabel, } from "@/components/ui/field";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
@@ -17,7 +12,6 @@ import toast from "react-hot-toast";
 export function LoginForm({ className, ...props }) {
   const [emailOrUsername, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -28,7 +22,6 @@ export function LoginForm({ className, ...props }) {
       toast.error(t("Please enter your email or username!"));
       return;
     }
-
     if (password.length < 8) {
       toast.error(t("Password must be at least 8 characters!"));
       return;

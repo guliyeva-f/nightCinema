@@ -26,18 +26,12 @@ export default function AccountInfoForm() {
     const onSubmit = async (data) => {
         try {
             setLoading(true);
-
             const payload = {
                 username: data.username,
                 email: data.email,
                 phoneNumber: data.phoneNumber
             };
-
-            const res = await $axios.put(
-                $api(API["update-infos"]),
-                payload
-            );
-            console.log(res);
+            const res = await $axios.put($api(API["update-infos"]), payload);
 
             if (res.data.success) {
                 toast.success("Updated successfully");
@@ -54,14 +48,11 @@ export default function AccountInfoForm() {
     };
 
     return (
-        <form
-            onSubmit={handleSubmit(onSubmit)}
+        <form onSubmit={handleSubmit(onSubmit)}
             className="w-full p-6 border shadow-md hover:shadow-lg transition-all duration-300 rounded-3xl"
             style={{ fontFamily: "Outfit, sans-serif" }}
-        >
-            <FieldGroup className="gap-4">
+        ><FieldGroup className="gap-4">
                 <h2 className="text-xl font-bold">Account Info</h2>
-
                 <Field>
                     <FieldLabel>Username</FieldLabel>
                     <Input
@@ -78,7 +69,6 @@ export default function AccountInfoForm() {
                         </p>
                     )}
                 </Field>
-
                 <Field>
                     <FieldLabel>Email</FieldLabel>
                     <Input
@@ -88,14 +78,12 @@ export default function AccountInfoForm() {
                         })}
                         placeholder="example@mail.com"
                         className={errors.email ? "border-red-500" : ""}
-                    />
-                    {errors.email && (
+                    />{errors.email && (
                         <p className="text-red-500 text-sm -mt-3 ml-1">
                             {errors.email.message}
                         </p>
                     )}
                 </Field>
-
                 <Field>
                     <FieldLabel>Phone Number</FieldLabel>
                     <Controller
@@ -105,8 +93,7 @@ export default function AccountInfoForm() {
                             required: "Required",
                             validate: value =>
                                 value.length === 13 || "Must be 13 characters"
-                        }}
-                        render={({ field }) => (
+                        }} render={({ field }) => (
                             <PhoneInput
                                 {...field}
                                 defaultCountry="az"
@@ -127,14 +114,12 @@ export default function AccountInfoForm() {
                                 }}
                             />
                         )}
-                    />
-                    {errors.phoneNumber && (
+                    />{errors.phoneNumber && (
                         <p className="text-red-500 text-sm -mt-3 ml-1">
                             {errors.phoneNumber.message}
                         </p>
                     )}
                 </Field>
-
                 <Button type="submit" disabled={loading}
                     className="self-start px-8 mt-3 bg-linear-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold transition-all"
                 >  {loading ? "Updating.." : "Update"}

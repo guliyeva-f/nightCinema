@@ -1,19 +1,9 @@
-"use client"
-
 import * as React from "react"
-
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar"
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, } from "@/components/ui/sidebar"
 import { Link } from "react-router-dom"
 
-export function TeamSwitcher({
-  teams
-}) {
+export function TeamSwitcher({ teams }) {
   const [activeTeam, setActiveTeam] = React.useState(teams[0])
-
   if (!activeTeam) {
     return null
   }

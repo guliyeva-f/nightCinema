@@ -16,7 +16,6 @@ export class AuthService {
   static async login(payload) {
     try {
       const response = await $axios.post($api(API.login), payload);
-
       if (response.data.success) {
         localStorage.setItem("accessToken", response.data.data.accessToken);
         localStorage.setItem("refreshToken", response.data.data.refreshToken);
@@ -50,11 +49,9 @@ export class AuthService {
     try {
       const refreshToken = localStorage.getItem("refreshToken");
       if (!refreshToken) throw new Error("Refresh token not found");
-
       const url = import.meta.env.DEV
         ? "http://localhost:5000/api/auth/refresh_token"
         : import.meta.env.VITE_APP_URL + "/api/auth/refresh_token";
-
       const response = await $axios.post(
         url,
         { refreshToken },
@@ -65,17 +62,12 @@ export class AuthService {
           },
         }
       );
-
       if (!response.data.success) {
         throw new Error("Failed to refresh token");
       }
-
-      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-        response.data.data;
-
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } = response.data.data;
       localStorage.setItem("accessToken", newAccessToken);
       localStorage.setItem("refreshToken", newRefreshToken);
-
       console.log("Tokens refreshed successfully");
       return newAccessToken;
     }

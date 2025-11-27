@@ -12,12 +12,7 @@ import { API } from "@/api/endpoints";
 export default function ChangePassword({ user }) {
     const { refetchUser } = useOutletContext();
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-        reset
-    } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             oldPassword: "",
             newPassword: ""
@@ -29,17 +24,11 @@ export default function ChangePassword({ user }) {
     const onSubmit = async (data) => {
         try {
             setLoading(true);
-
             const payload = {
                 oldPassword: data.oldPassword,
                 newPassword: data.newPassword,
             };
-
-            const res = await $axios.put(
-                $api(API["update-password"]),
-                payload
-            );
-
+            const res = await $axios.put($api(API["update-password"]), payload);
             if (res.data.success) {
                 toast.success("Password updated successfully!");
                 await refetchUser();
@@ -61,15 +50,16 @@ export default function ChangePassword({ user }) {
             <Input
                 type="password"
                 placeholder="Old password"
+                autoComplete="current-password"
                 {...register("oldPassword", { required: "Required" })}
                 className={errors.oldPassword ? "border-red-500" : ""}
             />
             {errors.oldPassword && <p className="text-red-500 text-sm -mt-3">{errors.oldPassword.message}</p>}
-
             <Label>New Password</Label>
             <Input
                 type="password"
                 placeholder="New password"
+                autoComplete="new-password"
                 {...register("newPassword", {
                     required: "Required",
                     minLength: { value: 8, message: "Min 8 characters" }

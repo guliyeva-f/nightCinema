@@ -1,22 +1,8 @@
-"use client";
-
 import * as React from "react";
-import {
-  TagsInput,
-  TagsInputInput,
-  TagsInputItem,
-  TagsInputLabel,
-  TagsInputList,
-} from "@/components/ui/tags-input";
+import { TagsInput, TagsInputInput, TagsInputItem, TagsInputList, } from "@/components/ui/tags-input";
 
-export function EditableTagsInput({
-  label,
-  placeholder,
-  value = [],
-  onChange,
-}) {
+export function EditableTagsInput({ placeholder, value = [], onChange, }) {
   const [tempValue, setTempValue] = React.useState("");
-
   const addTag = () => {
     const trimmed = tempValue.trim();
     if (trimmed && !value.includes(trimmed)) {
@@ -33,7 +19,6 @@ export function EditableTagsInput({
             {v}
           </TagsInputItem>
         ))}
-
         <TagsInputInput
           placeholder={placeholder}
           value={tempValue}

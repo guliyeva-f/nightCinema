@@ -91,7 +91,12 @@ function CustomSwiper() {
         </SwiperSlide>
         {movies.map((movie, index) => (
           <SwiperSlide className='h-full'>
-            <div className="w-full h-screen bg-cover bg-center relative" style={{ backgroundImage: `url(${movie.backgroundImgUrl})` }}>
+            <div className="w-full h-screen bg-cover bg-center relative"
+              style={{
+                backgroundImage: `url(${movie.backgroundImgUrl})`,
+                backgroundColor: "#000"
+              }}
+            >
               <div className="absolute inset-0 bg-black/70 z-1"></div>
               <div className="w-full p-[50px] lg:p-20 gap-5 relative flex-col z-1 container m-auto h-full text-5xl sm:text-6xl md:text-7xl lg:text-8xl flex justify-center items-start">
                 <h1 className="font-semibold max-w-110 text-white" style={{ fontFamily: 'Anton, sans-serif' }}>

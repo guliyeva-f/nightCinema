@@ -16,9 +16,7 @@ function ProfilePage() {
   const refetchUser = async () => {
     try {
       setLoading(true);
-
       const response = await $axios.get($api(API['user-info']));
-
       if (response.data.success) {
         AuthService.userData = response.data.data;
         setUser(response.data.data);
@@ -36,13 +34,11 @@ function ProfilePage() {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
-
     if (!token) {
       toast.error("Əvvəlcə hesaba daxil olun");
       navigate('/auth/login', { replace: true });
       return;
     }
-
     refetchUser();
   }, []);
 
@@ -53,11 +49,10 @@ function ProfilePage() {
       </div>
     );
   }
-
   return (
     <div className='flex flex-col gap-2 bg-[#AA0000] pt-[100px] bg-[radial-gradient(circle,rgba(170,0,0,1)_0%,rgba(31,28,24,1)_60%,rgba(0,0,0,1)_100%)] min-h-screen'>
       <ProfHead user={user} />
-      <div className='container w-[99%] flex-1 mb-5 p-9 mx-auto bg-black/30 rounded-[0px_0px_50px_50px] border-2 border-white flex flex-col md:flex-col lg:flex-row items-center md:justify-center' style={{ borderStyle: "inset" }}>
+      <div className='container w-[90%] flex-1 mb-5 p-9 mx-auto bg-black/30 rounded-[0px_0px_50px_50px] border-2 border-white flex flex-col md:flex-col lg:flex-row items-center md:justify-center' style={{ borderStyle: "inset" }}>
         <Outlet context={{ user, setUser, refetchUser }} />
       </div>
     </div>

@@ -12,7 +12,6 @@ function Header() {
 
   const handleLogoClick = (e) => {
     e.preventDefault();
-
     if (location.pathname === "/") {
       if (window.lenis) {
         window.lenis.scrollTo(0, { duration: 2.0 });
@@ -34,7 +33,6 @@ function Header() {
         document.documentElement.scrollTop ||
         document.body.scrollTop ||
         0;
-
       if (location.pathname === "/") {
         if (scrollTop > window.innerHeight * 0.9) {
           setIsScrolled(true);

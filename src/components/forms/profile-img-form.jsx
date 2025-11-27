@@ -11,26 +11,15 @@ import { API } from "@/api/endpoints";
 
 export default function ProfileImageForm({ defaultUrl }) {
   const { refetchUser } = useOutletContext();
-
-  const {
-    register,
-    handleSubmit,
-    watch,
-    setError,
-    clearErrors,
-    formState: { errors }
-  } = useForm();
-
+  const {register, handleSubmit, watch, setError, clearErrors, formState: { errors }} = useForm();
   const [preview, setPreview] = useState(defaultUrl || "");
   const [loading, setLoading] = useState(false);
-
   const forbiddenExtensions = [
     ".exe", ".dll", ".bat", ".cmd", ".sh", ".js",
     ".msi", ".apk", ".zip", ".rar", ".7z", ".iso"
   ];
 
   const watchedFile = watch("imageFile")?.[0];
-
   useEffect(() => {
     if (!watchedFile) {
       setPreview("");
@@ -51,7 +40,6 @@ export default function ProfileImageForm({ defaultUrl }) {
       clearErrors("imageFile");
       const objectUrl = URL.createObjectURL(watchedFile);
       setPreview(objectUrl);
-
       return () => URL.revokeObjectURL(objectUrl);
     }
   }, [watchedFile, setError, clearErrors]);
@@ -59,7 +47,6 @@ export default function ProfileImageForm({ defaultUrl }) {
   const onSubmit = async (data) => {
     const file = data.imageFile?.[0];
     if (!file) return;
-
     const fileName = file.name.toLowerCase();
     const isValid =
       file.type.startsWith("image/") &&
@@ -71,7 +58,6 @@ export default function ProfileImageForm({ defaultUrl }) {
       setPreview("");
       return;
     }
-
     const formData = new FormData();
     formData.append("photo", file);
     setLoading(true);
@@ -84,7 +70,6 @@ export default function ProfileImageForm({ defaultUrl }) {
           headers: { "Content-Type": "multipart/form-data" }
         }
       );
-
       if (res.data.success) {
         toast.success("Profile photo updated!");
         await refetchUser();
@@ -99,12 +84,9 @@ export default function ProfileImageForm({ defaultUrl }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
+    <form onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col justify-center h-full p-6 border shadow-md hover:shadow-lg transition-all duration-300 rounded-3xl space-y-4"
-    >
-      <h2 className="text-xl font-bold mb-8">Profile Image</h2>
-
+    ><h2 className="text-xl font-bold mb-8">Profile Image</h2>
       <div className="flex justify-between items-center gap-2">
         <div className="w-full">
           <Label className="text-sm font-medium mb-1.5 text-foreground">
@@ -117,20 +99,17 @@ export default function ProfileImageForm({ defaultUrl }) {
               validate: {
                 required: v =>
                   v?.length > 0 || "Image is required",
-
                 isImage: v => {
                   const file = v?.[0];
                   if (!file) return true;
                   return file.type.startsWith("image/") || "Only image files allowed";
                 },
-
                 extensionCheck: v => {
                   const file = v?.[0];
                   if (!file) return true;
                   const fileName = file.name.toLowerCase();
                   return !forbiddenExtensions.some(ext => fileName.endsWith(ext)) || "This file type is not allowed";
                 },
-
                 sizeCheck: v => {
                   const file = v?.[0];
                   if (!file) return true;
@@ -139,13 +118,10 @@ export default function ProfileImageForm({ defaultUrl }) {
               }
             })}
             className={`${errors.imageFile ? "border-red-500" : ""} mt-2`}
-          />
-
-          {errors.imageFile && (
+          />{errors.imageFile && (
             <p className="text-red-500 text-sm ml-1">{errors.imageFile.message}</p>
           )}
         </div>
-
         <div className="w-20 h-20 border border-white/30 rounded-full shrink-0 overflow-hidden bg-black/20 flex items-center justify-center">
           {preview ? (
             <img
@@ -158,9 +134,7 @@ export default function ProfileImageForm({ defaultUrl }) {
           )}
         </div>
       </div>
-
-      <Button
-        type="submit"
+      <Button type="submit"
         disabled={loading}
         className="self-start px-8 mt-4 bg-linear-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-semibold transition-all"
       >{loading ? "Updating.." : "Update"}

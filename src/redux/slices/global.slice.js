@@ -1,10 +1,8 @@
 import { createSlice }  from "@reduxjs/toolkit";
 
-
 const initialState ={
     count : 0
 }
-
 export const TestSlice = createSlice({
     name:"test",
     initialState,
@@ -14,7 +12,5 @@ export const TestSlice = createSlice({
         }
     }
 })
-
-
 export default TestSlice.reducer
 export const {setCount} = TestSlice.actions

@@ -4,7 +4,7 @@ import { MovieCard } from "@/components/layout/main/flip-card";
 import $axios from "@/api/accessor";
 import { $api } from "@/api/api";
 import { API } from "@/api/endpoints";
-import { CircleLoader, PacmanLoader } from "react-spinners";
+import { PacmanLoader } from "react-spinners";
 
 function HomePage() {
   const moviesRef = useRef(null);
@@ -44,7 +44,6 @@ function HomePage() {
       <section className="h-screen">
         <CustomSwiper />
       </section>
-
       <section id="movies-section" ref={moviesRef}
         className="bg-[#AA0000] flex justify-center py-20 bg-[radial-gradient(circle,rgba(170,0,0,1)_0%,rgba(31,28,24,1)_60%,rgba(0,0,0,1)_100%)]">
         {loading ? (
@@ -60,6 +59,4 @@ function HomePage() {
     </main>
   );
 }
-
-
 export default HomePage;

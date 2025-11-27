@@ -3,9 +3,6 @@ import AdminLayout from "@/layouts/admin.layout";
 import AuthLayout from "@/layouts/auth.layout";
 import GlobalLayout from "@/layouts/global.layout";
 import MainLayout from "@/layouts/main.layout";
-import AddAdminPage from "@/pages/admin/admins/add-admin.page";
-import DeleteAdminPage from "@/pages/admin/admins/delete-lang.page";
-import EditAdminPage from "@/pages/admin/admins/edit-lang.page";
 import DashboardPage from "@/pages/admin/dashboard.page";
 import AddLangPage from "@/pages/admin/languages/add-lang.page";
 import DeleteLangPage from "@/pages/admin/languages/delete-lang.page";
@@ -31,6 +28,7 @@ import PrTickets from "@/pages/main/profPages/prTickets";
 import TheatersPage from "@/pages/main/theaters.page";
 import { createRoutesFromElements, Navigate, Route } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
+import ManageAdminsPage from "@/pages/admin/admins/manage-admins.page";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -80,11 +78,11 @@ export const router = createBrowserRouter(
           <Route path="delete-session" element={<DeleteSessionPage />} />
         </Route>
 
-        <Route path="admins">
-          <Route index element={<Navigate to="add-admin" />} />
-          <Route path="add-admin" element={<AddAdminPage />} />
-          <Route path="edit-admin" element={<EditAdminPage />} />
-          <Route path="delete-admin" element={<DeleteAdminPage />} />
+        <Route path="manage-admins">
+          <Route index element={<Navigate to="add-edit-delete" />} />
+          <Route path="add-edit-delete" element={<ManageAdminsPage />} />
+          {/* <Route path="edit-admin" element={<EditAdminPage />} />
+          <Route path="delete-admin" element={<DeleteAdminPage />} /> */}
         </Route>
 
         <Route path="rooms">

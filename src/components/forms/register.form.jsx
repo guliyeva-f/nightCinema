@@ -18,7 +18,6 @@ export function RegisterForm({ className, ...props }) {
 
   const navigate = useNavigate();
   const { t } = useTranslation();
-
   const handleRegister = async (e) => {
     e.preventDefault();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,19 +26,16 @@ export function RegisterForm({ className, ...props }) {
       toast.error(t("Please fill all fields!"));
       return;
     }
-
     if (name.trim().length < 2) {
       toast(t("Name must be at least 2 letters!"), {
         icon: '⚠️'
       });
       return;
     }
-
     if (password.length < 8) {
       toast.error(t("Password must be at least 8 characters!"));
       return;
     }
-
     if (!emailRegex.test(email)) {
       toast.error(t("Enter a valid email!"));
       return;
@@ -53,15 +49,12 @@ export function RegisterForm({ className, ...props }) {
         password,
         phoneNumber: phone,
       });
-
       toast.dismiss("register"); 
-
       if (response.success) {
         toast.success(t("Registration successful! Please log in."), { id: "register" });
         navigate("/auth/login");
       } else {
         const errorMsg = response?.errorMessage?.toLowerCase();
-
         if (errorMsg.includes("email")) {
           toast.error(t("This email is already taken."), { id: "register" });
         } else if (errorMsg.includes("username")) {

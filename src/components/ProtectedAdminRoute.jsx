@@ -11,14 +11,12 @@ export default function ProtectedAdminRoute({ children }) {
 
     useEffect(() => {
         const token = localStorage.getItem("accessToken");
-
         if (!token) {
             toast.error("Admin kimi daxil ol!");
             setAllowed(false);
             setChecking(false);
             return;
         }
-
         toast.promise(
             $axios.get($api(API["user-check"])),
             {

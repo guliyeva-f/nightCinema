@@ -21,13 +21,7 @@ export default function AddMovieForm() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    watch,
-  } = useForm({
+  const { register, handleSubmit, control, formState: { errors }, watch, } = useForm({
     defaultValues: {
       name: "",
       director: "",
