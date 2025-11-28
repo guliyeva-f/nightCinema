@@ -1,17 +1,75 @@
 import MakeButton from "@/components/shadcn-studio/table/make-button"
 import ManageAdminsTable from "@/components/shadcn-studio/table/manage-admins-table"
-import { UserPlusIcon } from 'lucide-react'
+import { UserPlusIcon, UserStar } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-
-const admins = [{ src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png', fallback: 'CP', name: 'Cristofer Press', mail: 'cristoferpress@gmail.com' }, { src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-2.png', fallback: 'Ck', name: 'Carla Korsgaard', mail: 'carlakorsgaard@gmail.com' }, { src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-3.png', fallback: 'HB', name: 'Hanna Baptista', mail: 'hannabaptista@gmail.com' }, { src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-4.png', fallback: 'ZD', name: 'Zord Dorwart', mail: 'zorddorwart@gmail.com' }, { src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-5.png', fallback: 'CB', name: 'Corey Bergson', mail: 'coreybergson@gmail.com' }, { src: 'https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-6.png', fallback: 'JL', name: 'James Lubin', mail: 'jameslubin@gmail.com' }]
+import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
+import $axios from "@/api/accessor"
+import { $api } from "@/api/api"
+import { API } from "@/api/endpoints"
+import { CircleLoader, ClockLoader } from "react-spinners"
 
 function ManageAdminsPage() {
+    const [dialogOpen, setDialogOpen] = useState(false);
+    const [users, setUsers] = useState([]);
+    const [loadingUsers, setLoadingUsers] = useState(false);
+    const [makingUsername, setMakingUsername] = useState(null);
+    const [refreshAdmins, setRefreshAdmins] = useState(false);
+
+    const fetchUsers = async () => {
+        try {
+            setLoadingUsers(true);
+            const res = await $axios.get($api(API['all-users']));
+
+            if (res.data?.data) {
+                const mapped = res.data.data.map(u => ({
+                    username: u.realUsername,
+                    email: u.email || "—",
+                    avatar: u.profilePhotoUrl?.startsWith("http") ? u.profilePhotoUrl : "",
+                    fallback: u.realUsername?.[0]?.toUpperCase() || "U"
+                }));
+                setUsers(mapped);
+            }
+        } catch (err) {
+            toast.error("Failed to load users");
+            console.log(err);
+
+        } finally {
+            setLoadingUsers(false);
+        }
+    };
+
+    const handleMakeAdmin = async (username) => {
+        try {
+            setMakingUsername(username);
+            const res = await $axios.put($api(API["make-admin"]), null, { params: { username } });
+            if (res.data?.success) {
+                toast.success("User is now admin");
+                setRefreshAdmins(prev => !prev);
+                fetchUsers();
+                setDialogOpen(false);
+            }
+            else {
+                toast.error(res.data?.message || "Failed to update role");
+            }
+        } catch (err) {
+            toast.error("Server error");
+            console.log(err);
+        } finally {
+            setMakingUsername(null);
+        }
+    };
+
+    useEffect(() => {
+        if (dialogOpen) fetchUsers();
+    }, [dialogOpen]);
+
     return (
-        <>
-            <div className="absolute top-8 right-15">
-                <Dialog>
+        <div className='p-[20px_30px] absolute w-full top-[15px] flex flex-col gap-5 items-end'>
+            <div className="mr-5">
+                <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                     <DialogTrigger asChild>
                         <MakeButton />
                     </DialogTrigger>
@@ -19,37 +77,47 @@ function ManageAdminsPage() {
                         <DialogHeader className='text-center'>
                             <DialogTitle className='text-xl'>Make New Admin</DialogTitle>
                         </DialogHeader>
-                        <p className='mt-2'>Current Admins</p>
-                        <ul className='space-y-4'>
-                            {admins.map((item, index) => (
-                                <li key={index} className='flex items-center justify-between gap-3'>
-                                    <div className='flex items-center gap-3 max-[420px]:w-50'>
-                                        <Avatar className='size-10'>
-                                            <AvatarImage src={item.src} alt={item.name} />
-                                            <AvatarFallback className='text-xs'>{item.fallback}</AvatarFallback>
-                                        </Avatar>
-                                        <div className='flex flex-1 flex-col overflow-hidden'>
-                                            <span>{item.name}</span>
-                                            <span className='text-muted-foreground truncate text-sm'>{item.mail}</span>
+                        <p className='mt-2'>All Users</p>
+                        {loadingUsers ? (
+                            <div className="flex justify-center py-10">
+                                <ClockLoader color="#fff" size={60} />
+                            </div>
+                        ) : (
+                            <ul className='space-y-4'>
+                                {users.map((user, index) => (
+                                    <li key={index} className='flex items-center justify-between gap-3'>
+                                        <div className='flex items-center gap-3'>
+                                            <Avatar className='size-10'>
+                                                <AvatarImage src={user.avatar} alt={user.username} />
+                                                <AvatarFallback className='text-xs'>{user.fallback}</AvatarFallback>
+                                            </Avatar>
+                                            <div className='flex flex-col overflow-hidden'>
+                                                <span>{user.username}</span>
+                                                <span className='text-muted-foreground text-sm truncate'>
+                                                    {user.email}
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <Button
-                                        size='sm'
-                                        className='bg-sky-600 text-white hover:bg-sky-600 focus-visible:ring-sky-600 dark:bg-sky-400 dark:hover:bg-sky-400 dark:focus-visible:ring-sky-400'>
-                                        <UserPlusIcon />
-                                        Make admin
-                                    </Button>
-                                </li>
-                            ))}
-                        </ul>
+                                        <Button size='sm' className='bg-red-700 text-white hover:bg-red-600 cursor-pointer'
+                                            disabled={makingUsername === user.username}
+                                            onClick={() => handleMakeAdmin(user.username)}
+                                        >{makingUsername === user.username ? (
+                                            <CircleLoader color="#fff" size={20} />
+                                        ) : (<>
+                                            <UserStar className="size-4 mr-1" />
+                                            Make Admin</>
+                                        )}
+                                        </Button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </DialogContent>
                 </Dialog>
             </div>
-            <div className='p-[20px_30px]'>
-                <ManageAdminsTable />
-            </div>
-        </>
-    )
+            <ManageAdminsTable refresh={refreshAdmins} />
+        </div>
+    );
 }
 
-export default ManageAdminsPage
+export default ManageAdminsPage;

@@ -11,7 +11,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Trash2 } from 'lucide-react';
 import { TooltipButtonDelete, TooltipButtonEdit } from '../button/tooltip-buttons';
 
-const ManageAdminsTable = () => {
+const ManageAdminsTable = ({ refresh }) => {
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
@@ -67,8 +67,8 @@ const ManageAdminsTable = () => {
   };
 
   useEffect(() => {
-    fetchAdmins();
-  }, []);
+  fetchAdmins();
+}, [refresh]);
 
   return (
     <div className="w-full">
