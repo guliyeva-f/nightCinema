@@ -1,13 +1,18 @@
-import { UserMinus, UserPen, UserRoundPen } from 'lucide-react'
+import { UserPen, UserMinus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
-export const TooltipButtonEdit = () => {
+export const TooltipButtonEdit = ({ onClick }) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant='outline' size='icon' className='rounded-[8px] cursor-pointer'>
-           <UserPen />
+        <Button
+          variant='outline'
+          size='icon'
+          className='rounded-xl cursor-pointer'
+          onClick={onClick}
+        >
+          <UserPen />
           <span className='sr-only'>Edit Permissions</span>
         </Button>
       </TooltipTrigger>
@@ -15,12 +20,18 @@ export const TooltipButtonEdit = () => {
     </Tooltip>
   );
 }
-export const TooltipButtonDelete = () => {
+
+export const TooltipButtonDelete = ({ onClick }) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant='outline' size='icon' className='rounded-[8px] cursor-pointer'>
-           <UserMinus />
+        <Button
+          variant='outline'
+          size='icon'
+          className='rounded-xl cursor-pointer'
+          onClick={onClick}
+        >
+          <UserMinus />
           <span className='sr-only'>Delete Admin</span>
         </Button>
       </TooltipTrigger>

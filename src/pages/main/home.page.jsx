@@ -45,7 +45,8 @@ function HomePage() {
         <CustomSwiper />
       </section>
       <section id="movies-section" ref={moviesRef}
-        className="bg-[#AA0000] flex justify-center py-20 bg-[radial-gradient(circle,rgba(170,0,0,1)_0%,rgba(31,28,24,1)_60%,rgba(0,0,0,1)_100%)]">
+        className="bg-[#AA0000] relative flex justify-center py-20 bg-[radial-gradient(circle,rgba(170,0,0,1)_0%,rgba(31,28,24,1)_60%,rgba(0,0,0,1)_100%)]">
+        <div className="absolute m-0 inset-0 flex z-2 bg-linear-to-b from-[#100000] to-transparent pointer-events-none"></div>
         {loading ? (
           <PacmanLoader
             color="#ffffff"

@@ -46,7 +46,7 @@ export default function FlipCard({ movie, className = "" }) {
 }
 export function MovieCard({ movies = [] }) {
     return (
-        <div className="bg-transparent container m-auto flex flex-wrap justify-center gap-6 px-10 sm:px-5 md:px-4 lg:px-2">
+        <div className="bg-transparent relative z-10 container flex flex-wrap justify-start items-start gap-6 px-10 sm:px-5 md:px-4 lg:px-2">
             {movies.map((movie) => (
                 <FlipCard key={movie.id} movie={movie} />
             ))}

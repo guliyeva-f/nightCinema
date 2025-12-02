@@ -4,21 +4,23 @@ export const API = {
 
     "refresh-token": '/auth/refresh_token',
 
-    "update-password": "/user/updatePassword",
     "update-profile-photo": "/user/updateProfilePhoto",
-    
+    "update-password": "/user/updatePassword",
+    "update-infos": "/user/updateInfos",
+    "update-movie": "/admin/updateMovie",
+
     "user-movie": "/user/movie",
     "user-info": "/user/info",
-    "all-users": "/admin/getUsers",
-    "all-admins": "/admin/getAdmins",
-    "delete-user": "/admin/deleteUser",
     "user-check": "/user/check",
-    "update-infos": "/user/updateInfos",
 
     "all-movie": "/movie/all",
+    "star-movie": "/movie/star",
+
+    "make-admin-user": "/admin/makeAdminUser",
+    "all-admins": "/admin/getAdmins",
+    "all-users": "/admin/getUsers",
     "add-movie": "/admin/addMovie",
-    "make-admin": "/admin/makeAdmin",
     "delete-movie": "/admin/deleteMovie",
-    "update-movie": "/admin/updateMovie",
-    "star-movie": "/movie/star"
+    "make-admin": "/admin/makeAdmin",
+    "delete-user": "/admin/deleteUser",
 }

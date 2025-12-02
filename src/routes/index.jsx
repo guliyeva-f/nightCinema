@@ -29,6 +29,7 @@ import TheatersPage from "@/pages/main/theaters.page";
 import { createRoutesFromElements, Navigate, Route } from "react-router-dom";
 import { createBrowserRouter } from "react-router-dom";
 import ManageAdminsPage from "@/pages/admin/admins/manage-admins.page";
+import NotFoundPage from "@/pages/main/not-found.page";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -109,6 +110,7 @@ export const router = createBrowserRouter(
         <Route path="register" element={<RegisterPage />} />
       </Route>
 
+      <Route path="*" element={<NotFoundPage />} />
     </Route>
   )
 )

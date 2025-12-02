@@ -34,7 +34,7 @@ function Header() {
         document.body.scrollTop ||
         0;
       if (location.pathname === "/") {
-        if (scrollTop > window.innerHeight * 0.9) {
+        if (scrollTop > window.innerHeight * 0.2) {
           setIsScrolled(true);
         } else {
           setIsScrolled(false);

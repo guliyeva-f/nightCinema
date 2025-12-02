@@ -10,11 +10,22 @@ import { CircleLoader, ClockLoader } from "react-spinners";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Trash2 } from 'lucide-react';
 import { TooltipButtonDelete, TooltipButtonEdit } from '../button/tooltip-buttons';
+import EditPermissionsForm from '@/components/edit-permissions'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, } from '@/components/ui/sheet'
+
+const backendRole = {
+  name: "Admin",
+  permissions: ["ADD_MOVIE", "UPDATE_MOVIE", "DELETE_USER"]
+}
 
 const ManageAdminsTable = ({ refresh }) => {
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [loadingPermissions, setLoadingPermissions] = useState(false);
 
   const fetchAdmins = async () => {
     try {
@@ -46,29 +57,35 @@ const ManageAdminsTable = ({ refresh }) => {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (username) => {
     try {
-      setDeletingId(id);
-      //   const res = await $axios.delete($api(`${API['delete-user']}/${id}`));
-      // role changed succesfuly
+      setDeletingId(username);
 
-      // if (res.data?.success) {
-      //   toast.success("User deleted successfully");
-      //   setAdmins((prev) => prev.filter((user) => user.id !== id));
-      // } else {
-      //   toast.error(res.data?.message || "Failed to delete user");
-      // }
-    } catch (err) {
-      console.error("Delete user error:", err);
-      toast.error("Server error while deleting user");
-    } finally {
+      const res = await $axios.post(
+        $api(API["make-admin-user"]),
+        {},
+        { params: { username } }
+      );
+
+      if (res.data?.success) {
+        toast.success("Role changed successfully");
+        fetchAdmins();
+      } else {
+        toast.error(res.data?.message || "Failed to change role");
+      }
+    }
+    catch (err) {
+      console.error("Role change error:", err);
+      toast.error("Server error while changing role");
+    }
+    finally {
       setDeletingId(null);
     }
   };
 
   useEffect(() => {
-  fetchAdmins();
-}, [refresh]);
+    fetchAdmins();
+  }, [refresh]);
 
   return (
     <div className="w-full">
@@ -113,7 +130,11 @@ const ManageAdminsTable = ({ refresh }) => {
                 <TableCell>{admin.role}</TableCell>
                 <TableCell>{admin.createdAt}</TableCell>
                 <TableCell className="flex justify-center gap-2">
-                  <TooltipButtonEdit />
+                  <TooltipButtonEdit
+                    onClick={() => {
+                      setSheetOpen(true);
+                    }}
+                  />
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <div>
@@ -140,7 +161,7 @@ const ManageAdminsTable = ({ refresh }) => {
                           Cancel
                         </AlertDialogCancel>
                         <AlertDialogAction
-                          onClick={() => handleDelete(admin.id)}
+                          onClick={() => handleDelete(admin.username)}
                           className="bg-red-700 cursor-pointer text-white hover:bg-red-700/90"
                         >Confirm Role Change
                         </AlertDialogAction>
@@ -151,6 +172,30 @@ const ManageAdminsTable = ({ refresh }) => {
               </TableRow>)))}
           </TableBody>
         </Table>
+
+        <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+          <SheetContent>
+            <ScrollArea data-lenis-prevent className='h-full'>
+              <SheetHeader>
+                <SheetTitle>Edit Admin Permissions</SheetTitle>
+                <SheetDescription> Adjust the permissions for this admin account.</SheetDescription>
+              </SheetHeader>
+              <div className='px-5 mb-3'>
+                <EditPermissionsForm
+                  initial={backendRole.permissions}
+                  onSubmit={(updated) => console.log("YENİ İCAZƏLƏR:", updated)} />
+              </div>
+              <SheetFooter className="flex flex-row gap-2">
+                <SheetClose asChild>
+                  <Button variant='outline' className={'w-1/2'}>Cancel</Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button type='submit' className={'w-1/2'}>Accept</Button>
+                </SheetClose>
+              </SheetFooter>
+            </ScrollArea>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
   );
