@@ -18,7 +18,6 @@ import { Calendar22 } from "./shadcn-studio/date-picker/date-picker";
 
 export default function EditMovieForm({ movieData, onSuccess }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
-
     const { register, handleSubmit, control, formState: { errors }, watch, reset } = useForm({
         defaultValues: movieData || {},
     });
@@ -36,47 +35,43 @@ export default function EditMovieForm({ movieData, onSuccess }) {
     }, [movieData, reset]);
 
     const onSubmit = async (data) => {
-        if (!data.genres?.length) {
-            toast.error("Please select at least one genre");
-            return;
-        }
-
-        if (!data.actors?.length) {
-            toast.error("Please add at least one actor");
-            return;
-        }
-
-        const payload = {
-            id: movieData?.id,
-            name: data.name.trim(),
-            director: data.director.trim(),
-            description: data.description.trim(),
-            coverPhotoUrl: data.coverPhotoUrl.trim(),
-            trailerUrl: data.trailerUrl.trim(),
-            backgroundImgUrl: data.backgroundImgUrl?.trim() || null,
-            releaseDate: data.releaseDate,
-            movieDuration: data.movieDuration,
-            actors: data.actors,
-            starMovie: data.starMovie,
-            genre: data.genres.map((g) => g.toUpperCase()),
-        };
-
         try {
             setIsSubmitting(true);
-            const res = await $axios.put(
-                $api(`${API["update-movie"]}?movieId=${movieData.id}`),
-                payload
+            const formData = new FormData();
+
+            formData.append("id", movieData.id);
+            formData.append("name", data.name.trim());
+            formData.append("description", data.description.trim());
+            formData.append("movieDuration", data.movieDuration);
+            formData.append("director", data.director.trim());
+            formData.append("releaseDate", data.releaseDate);
+            formData.append("trailerUrl", data.trailerUrl.trim());
+            formData.append("starMovie", data.starMovie ? "true" : "false");
+
+            data.genres.forEach(g => formData.append("genre", g.toUpperCase()));
+            data.actors.forEach(a => formData.append("actors", a.trim()));
+
+            if (data.coverPhoto instanceof File) {
+                formData.append("coverPhoto", data.coverPhoto);
+            }
+
+            if (data.starMovie && data.background instanceof File) {
+                formData.append("background", data.background);
+            }
+
+            const res = await $axios.put($api(`${API["update-movie"]}?movieId=${movieData.id}`), formData,
+                { headers: { "Content-Type": "multipart/form-data" } }
             );
 
             if (res.data.success) {
                 toast.success("Movie updated successfully");
                 if (typeof onSuccess === "function") onSuccess();
-            }
-            else {
+            } else {
                 toast.error("Failed to update movie");
             }
         } catch (error) {
             console.error("Error updating movie:", error);
+            toast.error("An error occurred while updating the movie");
         } finally {
             setIsSubmitting(false);
         }
@@ -227,26 +222,35 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                             </div>
                             {/* filmin sekli */}
                             <div className="col-span-full lg:col-span-3">
-                                <Label
-                                    htmlFor="coverPhotoUrl"
-                                    className="text-sm font-medium text-foreground dark:text-foreground">
-                                    Cover Photo Url
-                                </Label>
-                                <Input
-                                    type="text"
-                                    name="coverPhotoUrl"
-                                    id="coverPhotoUrl"
-                                    {...register("coverPhotoUrl", {
-                                        required: "Cover photo URL is required",
-                                        pattern: { value: urlPattern, message: "Invalid URL" },
-                                    })}
-                                    placeholder="https://example.com/photo.jpg"
-                                    className="mt-2"
-                                />{errors.coverPhotoUrl && (
-                                    <p className="text-red-400 ml-2 text-[12px]">
-                                        {errors.coverPhotoUrl.message}
-                                    </p>
-                                )}
+                                <Controller
+                                    name="coverPhoto"
+                                    control={control}
+                                    rules={{
+                                        validate: {
+                                            isImage: file => !file || file.type.startsWith("image/") || "Only image files allowed",
+                                            extensionCheck: file => {
+                                                if (!file) return true;
+                                                const forbiddenExtensions = [".exe", ".dll", ".bat", ".cmd", ".sh", ".js", ".msi", ".apk", ".zip", ".rar", ".7z", ".iso"];
+                                                return !forbiddenExtensions.some(ext => file.name.toLowerCase().endsWith(ext)) || "This file type is not allowed";
+                                            },
+                                            sizeCheck: file => !file || file.size <= 5 * 1024 * 1024 || "Max file size is 5MB"
+                                        }
+                                    }}
+                                    render={({ field, fieldState }) => (
+                                        <>
+                                            <Label className="text-sm font-medium text-foreground dark:text-foreground">Cover Photo</Label>
+                                            <Input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => field.onChange(e.target.files[0])}
+                                                className={`${fieldState.error ? "border-red-500" : ""} mt-2`}
+                                            />
+                                            {fieldState.error && (
+                                                <p className="text-red-500 text-sm mt-1">{fieldState.error.message}</p>
+                                            )}
+                                        </>
+                                    )}
+                                />
                             </div>
                             {/* filmin treyleri */}
                             <div className="col-span-full lg:col-span-3">
@@ -345,29 +349,36 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                                         </div>
                                         {/* star movie shekli */}
                                         <div className="col-span-6">
-                                            <Label
-                                                htmlFor="backgroundImgUrl"
-                                                className="text-sm font-medium text-foreground dark:text-foreground">
-                                                Background Image Url
-                                            </Label>
-                                            <Input
-                                                type="text"
-                                                id="backgroundImgUrl"
-                                                name="backgroundImgUrl"
-                                                disabled={!isStarMovie}
-                                                placeholder="https://example.com/photo.jpg"
-                                                className={`mt-2 ${!isStarMovie ? "opacity-50 cursor-not-allowed" : ""}`}
-                                                {...register("backgroundImgUrl", {
-                                                    required: isStarMovie ? "Background image URL is required" : false,
-                                                    pattern: {
-                                                        value: /^https?:\/\/.+$/,
-                                                        message: "Invalid URL",
-                                                    },
-                                                })}
+                                            <Controller
+                                                name="background"
+                                                control={control}
+                                                rules={{
+                                                    validate: {
+                                                        isImage: file => !isStarMovie || !file || file.type.startsWith("image/") || "Only image files allowed",
+                                                        extensionCheck: file => {
+                                                            if (!isStarMovie || !file) return true;
+                                                            const forbiddenExtensions = [".exe", ".dll", ".bat", ".cmd", ".sh", ".js", ".msi", ".apk", ".zip", ".rar", ".7z", ".iso"];
+                                                            return !forbiddenExtensions.some(ext => file.name.toLowerCase().endsWith(ext)) || "This file type is not allowed";
+                                                        },
+                                                        sizeCheck: file => !isStarMovie || !file || file.size <= 5 * 1024 * 1024 || "Max file size is 5MB"
+                                                    }
+                                                }}
+                                                render={({ field, fieldState }) => (
+                                                    <>
+                                                        <Label>Background Image</Label>
+                                                        <Input
+                                                            type="file"
+                                                            accept="image/*"
+                                                            disabled={!isStarMovie}
+                                                            onChange={(e) => field.onChange(e.target.files[0])}
+                                                            className={`${!isStarMovie ? "opacity-50 cursor-not-allowed" : ""} ${fieldState.error ? "border-red-500" : ""} mt-2`}
+                                                        />
+                                                        {fieldState.error && (
+                                                            <p className="text-red-500 text-sm mt-1">{fieldState.error.message}</p>
+                                                        )}
+                                                    </>
+                                                )}
                                             />
-                                            {errors.backgroundImgUrl && (
-                                                <p className="text-red-400 ml-2 text-[12px]">{errors.backgroundImgUrl.message}</p>
-                                            )}
                                         </div>
                                     </div>
                                 </div>

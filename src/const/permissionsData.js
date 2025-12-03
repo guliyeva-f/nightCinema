@@ -14,9 +14,9 @@ export const PERMISSION_GROUPS = [
     title: "Admin",
     icon: UserStar,
     items: [
-      { key: PERMISSION_KEYS.ADD_ADMIN, label: "Add Admin" },
+      { key: PERMISSION_KEYS.ADD_ADMIN, label: "Make Admin" },
       { key: PERMISSION_KEYS.DELETE_ADMIN, label: "Delete Admin" },
-      { key: PERMISSION_KEYS.UPDATE_ADMIN, label: "Update Admin" },
+      // { key: PERMISSION_KEYS.UPDATE_ADMIN, label: "Update Admin" },
     ],
   },
   {

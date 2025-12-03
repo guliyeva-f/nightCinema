@@ -1,7 +1,7 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { EditableTagsInput } from "./tagInput";
@@ -26,52 +26,49 @@ export default function AddMovieForm() {
       name: "",
       director: "",
       description: "",
-      coverPhotoUrl: "",
-      trailerUrl: "",
-      backgroundImgUrl: "",
       genre: [],
       actors: [],
       starMovie: false,
       releaseDate: "",
       movieDuration: "",
+      trailerUrl: "",
+      coverPhoto: null,
+      background: null,
     },
   });
 
   const onSubmit = async (data) => {
-    if (!data.genre.length) {
-      alert("Please add at least one genre.");
-      return;
-    }
-    if (!data.actors.length) {
-      alert("Please add at least one actor.");
-      return;
-    }
-
-    const payload = {
-      ...data,
-      name: data.name.trim(),
-      director: data.director.trim(),
-      description: data.description.trim(),
-      coverPhotoUrl: data.coverPhotoUrl.trim(),
-      genre: data.genre.map(g => g.toUpperCase()),
-      trailerUrl: data.trailerUrl.trim(),
-      backgroundImgUrl: data.backgroundImgUrl.trim(),
-    };
     try {
       setIsSubmitting(true);
-      const res = await $axios.post($api(API['add-movie']), payload);
+      const formData = new FormData();
+      formData.append("name", data.name.trim());
+      formData.append("description", data.description.trim());
+      formData.append("movieDuration", data.movieDuration);
+      formData.append("director", data.director.trim());
+      formData.append("releaseDate", data.releaseDate);
+      formData.append("trailerUrl", data.trailerUrl.trim());
+      formData.append("starMovie", data.starMovie ? "true" : "false");
+
+      data.genre.forEach(g => formData.append("genre", g.toUpperCase()));
+      data.actors.forEach(a => formData.append("actors", a.trim()));
+
+      if (data.coverPhoto) formData.append("coverPhoto", data.coverPhoto);
+      if (data.background && isStarMovie) {
+        formData.append("background", data.background);
+      }
+
+      const res = await $axios.post($api(API['add-movie']), formData);
 
       if (res.data?.success) {
-        alert("Movie added successfully!");
+        toast.success("Movie added successfully!");
         navigate("/admin/movies/edit-delete-movie");
       } else {
-        alert(res.data?.message || "Failed to add movie");
+        toast.error("Failed to add movie");
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.error("Add movie error:", err);
-    }
-    finally {
+      toast.error("An error occurred while adding the movie");
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -215,27 +212,36 @@ export default function AddMovieForm() {
 
               {/* filmin sekli */}
               <div className="col-span-full lg:col-span-3">
-                <Label
-                  htmlFor="coverPhotoUrl"
-                  className="text-sm font-medium text-foreground dark:text-foreground">
-                  Cover Photo Url
-                </Label>
-                <Input
-                  type="text"
-                  name="coverPhotoUrl"
-                  id="coverPhotoUrl"
-                  {...register("coverPhotoUrl", {
-                    required: "Cover photo URL is required",
-                    pattern: { value: urlPattern, message: "Invalid URL" },
-                  })}
-                  placeholder="https://example.com/photo.jpg"
-                  className="mt-2"
+                <Controller
+                  name="coverPhoto"
+                  control={control}
+                  rules={{
+                    required: "Cover photo is required",
+                    validate: {
+                      isImage: file => !file || file.type.startsWith("image/") || "Only image files allowed",
+                      extensionCheck: file => {
+                        if (!file) return true;
+                        const forbiddenExtensions = [".exe", ".dll", ".bat", ".cmd", ".sh", ".js", ".msi", ".apk", ".zip", ".rar", ".7z", ".iso"];
+                        return !forbiddenExtensions.some(ext => file.name.toLowerCase().endsWith(ext)) || "This file type is not allowed";
+                      },
+                      sizeCheck: file => !file || file.size <= 5 * 1024 * 1024 || "Max file size is 5MB"
+                    }
+                  }}
+                  render={({ field, fieldState }) => (
+                    <>
+                      <Label className="text-sm font-medium text-foreground dark:text-foreground">Cover Photo</Label>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => field.onChange(e.target.files[0])}
+                        className={`${fieldState.error ? "border-red-500" : ""} mt-2`}
+                      />
+                      {fieldState.error && (
+                        <p className="text-red-500 text-sm mt-1">{fieldState.error.message}</p>
+                      )}
+                    </>
+                  )}
                 />
-                {errors.coverPhotoUrl && (
-                  <p className="text-red-400 ml-2 text-[12px]">
-                    {errors.coverPhotoUrl.message}
-                  </p>
-                )}
               </div>
 
               {/* filmin treyleri */}
@@ -338,29 +344,37 @@ export default function AddMovieForm() {
 
                     {/* star movie shekli */}
                     <div className="col-span-6">
-                      <Label
-                        htmlFor="backgroundImgUrl"
-                        className="text-sm font-medium text-foreground dark:text-foreground">
-                        Background Image Url
-                      </Label>
-                      <Input
-                        type="text"
-                        id="backgroundImgUrl"
-                        name="backgroundImgUrl"
-                        disabled={!isStarMovie}
-                        placeholder="https://example.com/photo.jpg"
-                        className={`mt-2 ${!isStarMovie ? "opacity-50 cursor-not-allowed" : ""}`}
-                        {...register("backgroundImgUrl", {
-                          required: isStarMovie ? "Background image URL is required" : false,
-                          pattern: {
-                            value: /^https?:\/\/.+$/,
-                            message: "Invalid URL",
-                          },
-                        })}
+                      <Controller
+                        name="background"
+                        control={control}
+                        rules={{
+                          validate: {
+                            required: file => !isStarMovie || file || "Background image is required",
+                            isImage: file => !isStarMovie || !file || file.type.startsWith("image/") || "Only image files allowed",
+                            extensionCheck: file => {
+                              if (!isStarMovie || !file) return true;
+                              const forbiddenExtensions = [".exe", ".dll", ".bat", ".cmd", ".sh", ".js", ".msi", ".apk", ".zip", ".rar", ".7z", ".iso"];
+                              return !forbiddenExtensions.some(ext => file.name.toLowerCase().endsWith(ext)) || "This file type is not allowed";
+                            },
+                            sizeCheck: file => !isStarMovie || !file || file.size <= 5 * 1024 * 1024 || "Max file size is 5MB"
+                          }
+                        }}
+                        render={({ field, fieldState }) => (
+                          <>
+                            <Label>Background Image</Label>
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              disabled={!isStarMovie}
+                              onChange={(e) => field.onChange(e.target.files[0])}
+                              className={`${!isStarMovie ? "opacity-50 cursor-not-allowed" : ""} ${fieldState.error ? "border-red-500" : ""} mt-2`}
+                            />
+                            {fieldState.error && (
+                              <p className="text-red-500 text-sm mt-1">{fieldState.error.message}</p>
+                            )}
+                          </>
+                        )}
                       />
-                      {errors.backgroundImgUrl && (
-                        <p className="text-red-400 ml-2 text-[12px]">{errors.backgroundImgUrl.message}</p>
-                      )}
                     </div>
                   </div>
                 </div>

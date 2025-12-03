@@ -16,11 +16,13 @@ export const API = {
     "all-movie": "/movie/all",
     "star-movie": "/movie/star",
 
-    "make-admin-user": "/admin/makeAdminUser",
+    "upgrade-user": "/admin/upgradeUser",
     "all-admins": "/admin/getAdmins",
     "all-users": "/admin/getUsers",
     "add-movie": "/admin/addMovie",
     "delete-movie": "/admin/deleteMovie",
-    "make-admin": "/admin/makeAdmin",
-    "delete-user": "/admin/deleteUser",
+    "degrade-admin": "/admin/degradeAdmin",
+
+    "get-permissions": "/admin/getPermissions",
+    "change-permission": "/admin/changePermission",
 }

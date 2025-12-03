@@ -59,10 +59,20 @@ function CustomSwiper() {
         effect="fade"
         loop={movies.length + 1 >= 2}
         autoplay={{
-          delay: 5000,
+          delay: 3000,
           disableOnInteraction: false,
         }}
-        pagination={{ clickable: true }}
+        pagination={{
+          clickable: true,
+          el: ".swiper-pagination",
+        }}
+        onAutoplayTimeLeft={(s, time, progress) => {
+          const circle = document.querySelector(".autoplay-progress svg");
+          const text = document.querySelector(".autoplay-progress span");
+
+          if (circle) circle.style.setProperty("--progress", progress);
+          if (text) text.textContent = `${Math.ceil(time / 1000)}s`;
+        }}
         modules={[EffectFade, Navigation, Pagination, Autoplay]}
         className="mySwiper"
       >
@@ -124,6 +134,14 @@ function CustomSwiper() {
       </Swiper>
       <div ref={prevRef} className="swiper-button-prev-custom"><GrPrevious /></div>
       <div ref={nextRef} className="swiper-button-next-custom"><GrNext /></div>
+
+      <div className="swiper-pagination"></div>
+      <div className="autoplay-progress">
+        <svg viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="20"></circle>
+        </svg>
+        <span></span>
+      </div>
     </div>
   );
 }

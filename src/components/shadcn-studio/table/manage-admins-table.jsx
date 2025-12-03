@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import $axios from '@/api/accessor';
 import toast from 'react-hot-toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import "./button.css";
 import { $api } from '@/api/api';
 import { API } from '@/api/endpoints';
-import { CircleLoader, ClockLoader } from "react-spinners";
+import { CircleLoader, ClockLoader, FadeLoader } from "react-spinners";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Trash2 } from 'lucide-react';
 import { TooltipButtonDelete, TooltipButtonEdit } from '../button/tooltip-buttons';
@@ -15,17 +15,16 @@ import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, } from '@/components/ui/sheet'
 
-const backendRole = {
-  name: "Admin",
-  permissions: ["ADD_MOVIE", "UPDATE_MOVIE", "DELETE_USER"]
-}
-
 const ManageAdminsTable = ({ refresh }) => {
   const [admins, setAdmins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [loadingPermissions, setLoadingPermissions] = useState(false);
+  const [selectedAdmin, setSelectedAdmin] = useState(null);
+  const [permissions, setPermissions] = useState([]);
+  const formRef = useRef();
+  const [savingPermissions, setSavingPermissions] = useState(false);
 
   const fetchAdmins = async () => {
     try {
@@ -61,10 +60,9 @@ const ManageAdminsTable = ({ refresh }) => {
     try {
       setDeletingId(username);
 
-      const res = await $axios.post(
-        $api(API["make-admin-user"]),
-        {},
-        { params: { username } }
+      const res = await $axios.put(
+        $api(API["degrade-admin"]),
+        {}, { params: { username } }
       );
 
       if (res.data?.success) {
@@ -86,6 +84,55 @@ const ManageAdminsTable = ({ refresh }) => {
   useEffect(() => {
     fetchAdmins();
   }, [refresh]);
+
+  useEffect(() => {
+    if (!sheetOpen || !selectedAdmin) return;
+    const fetchPermissions = async () => {
+      try {
+        setLoadingPermissions(true);
+
+        const res = await $axios.get(
+          $api(API["get-permissions"]),
+          { params: { username: selectedAdmin } }
+        );
+
+        if (res.data?.data) {
+          setPermissions(res.data.data);
+        }
+      } catch (err) {
+        toast.error("Failed to load permissions");
+        console.log(err);
+      } finally {
+        setLoadingPermissions(false);
+      }
+    };
+
+    fetchPermissions();
+  }, [sheetOpen, selectedAdmin]);
+
+  const handleSavePermissions = async (updatedPermissions) => {
+    try {
+      setSavingPermissions(true);
+      const res = await $axios.put(
+        $api(API["change-permission"]),
+        {
+          username: selectedAdmin,
+          permissions: updatedPermissions,
+        }
+      );
+      if (res.data?.success) {
+        toast.success("Permissions updated successfully");
+        fetchAdmins();
+        setSheetOpen(false);
+      } else {
+        toast.error("Failed to update permissions");
+      }
+    } catch (err) {
+      toast.error("Server error");
+    } finally {
+      setSavingPermissions(false);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -132,6 +179,7 @@ const ManageAdminsTable = ({ refresh }) => {
                 <TableCell className="flex justify-center gap-2">
                   <TooltipButtonEdit
                     onClick={() => {
+                      setSelectedAdmin(admin.username);
                       setSheetOpen(true);
                     }}
                   />
@@ -181,18 +229,32 @@ const ManageAdminsTable = ({ refresh }) => {
                 <SheetDescription> Adjust the permissions for this admin account.</SheetDescription>
               </SheetHeader>
               <div className='px-5 mb-3'>
-                <EditPermissionsForm
-                  initial={backendRole.permissions}
-                  onSubmit={(updated) => console.log("YENİ İCAZƏLƏR:", updated)} />
+                {loadingPermissions ? (
+                  <div className="flex justify-center py-10">
+                    <FadeLoader color="#fff" />
+                  </div>
+                ) : (
+                  <EditPermissionsForm
+                    initial={permissions}
+                    onSubmit={(updated) => handleSavePermissions(updated)}
+                    formRef={formRef}
+                  />
+                )}
               </div>
-              <SheetFooter className="flex flex-row gap-2">
-                <SheetClose asChild>
-                  <Button variant='outline' className={'w-1/2'}>Cancel</Button>
-                </SheetClose>
-                <SheetClose asChild>
-                  <Button type='submit' className={'w-1/2'}>Accept</Button>
-                </SheetClose>
-              </SheetFooter>
+              {!loadingPermissions && (
+                <SheetFooter className="flex flex-row gap-2">
+                  <SheetClose asChild>
+                    <Button variant='outline' className={'w-1/2'}>Cancel</Button>
+                  </SheetClose>
+                  <Button className="w-1/2" onClick={() => formRef.current?.requestSubmit()} disabled={savingPermissions}>
+                    {savingPermissions ? (
+                      <CircleLoader size={20} />
+                    ) : (
+                      "Accept"
+                    )}
+                  </Button>
+                </SheetFooter>
+              )}
             </ScrollArea>
           </SheetContent>
         </Sheet>

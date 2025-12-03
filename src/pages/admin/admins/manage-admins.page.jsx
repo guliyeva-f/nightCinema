@@ -49,7 +49,7 @@ function ManageAdminsPage() {
     const handleMakeAdmin = async (username) => {
         try {
             setMakingUsername(username);
-            const res = await $axios.put($api(API["make-admin"]), null, { params: { username } });
+            const res = await $axios.put($api(API["upgrade-user"]), null, { params: { username } });
             if (res.data?.success) {
                 toast.success("User is now admin");
                 setRefreshAdmins(prev => !prev);

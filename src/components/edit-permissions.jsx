@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { PERMISSION_GROUPS } from "@/const/permissionsData"
 import { Checkbox } from "./ui/checkbox"
 
-export default function EditPermissionsForm({ initial = [], onSubmit }) {
+export default function EditPermissionsForm({ initial = [], onSubmit, formRef }) {
   const [selected, setSelected] = useState([])
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function EditPermissionsForm({ initial = [], onSubmit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form ref={formRef} onSubmit={handleSubmit}>
       <div className="flex flex-col gap-3">
         {PERMISSION_GROUPS.map(({ title, icon: Icon, items }, i) => (
           <div key={title} className="flex flex-col gap-2">
