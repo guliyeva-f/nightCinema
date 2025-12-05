@@ -39,7 +39,6 @@ export default function EditMovieForm({ movieData, onSuccess }) {
             setIsSubmitting(true);
             const formData = new FormData();
 
-            formData.append("id", movieData.id);
             formData.append("name", data.name.trim());
             formData.append("description", data.description.trim());
             formData.append("movieDuration", data.movieDuration);
@@ -55,8 +54,13 @@ export default function EditMovieForm({ movieData, onSuccess }) {
                 formData.append("coverPhoto", data.coverPhoto);
             }
 
+            // if (data.starMovie && data.background instanceof File) {
+            //     formData.append("background", data.background);
+            // }
             if (data.starMovie && data.background instanceof File) {
                 formData.append("background", data.background);
+            } else {
+                formData.append("background", null);
             }
 
             const res = await $axios.put($api(`${API["update-movie"]}?movieId=${movieData.id}`), formData,

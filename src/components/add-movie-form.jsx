@@ -53,8 +53,13 @@ export default function AddMovieForm() {
       data.actors.forEach(a => formData.append("actors", a.trim()));
 
       if (data.coverPhoto) formData.append("coverPhoto", data.coverPhoto);
-      if (data.background && isStarMovie) {
+      // if (data.background && isStarMovie) {
+      //   formData.append("background", data.background);
+      // }
+      if (isStarMovie && data.background) {
         formData.append("background", data.background);
+      } else {
+        formData.append("background", null);
       }
 
       const res = await $axios.post($api(API['add-movie']), formData);

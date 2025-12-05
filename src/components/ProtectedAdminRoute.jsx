@@ -36,7 +36,20 @@ export default function ProtectedAdminRoute({ children }) {
                 error: (err) => {
                     setAllowed(false);
                     setChecking(false);
-                    toast.error("Daxil olmaq üçün icazəniz yoxdur!");
+                    const status = err?.response?.status;
+            
+                    if (status === 500) {
+                        toast.error("Serverdə problem var..");
+                    }
+                    else if (status === 503) {
+                        toast.error("Server hazırda bağlıdır..");
+                    }
+                    else if (!err.response) {
+                        toast.error("Şəbəkə xətası..");
+                    }
+                    else {
+                        toast.error("Naməlum xəta baş verdi..");
+                    }
                     return "";
                 },
             }

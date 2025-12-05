@@ -90,7 +90,6 @@ const ManageAdminsTable = ({ refresh }) => {
     const fetchPermissions = async () => {
       try {
         setLoadingPermissions(true);
-
         const res = await $axios.get(
           $api(API["get-permissions"]),
           { params: { username: selectedAdmin } }
